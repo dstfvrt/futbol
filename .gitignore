@@ -11,3 +11,4 @@
 .rubocop.yml
 
 !.rspec
+coverage

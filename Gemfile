@@ -8,3 +8,5 @@ gem "rspec", "~> 3.8.0"
 gem "rubocop", "~> 0.68.1"
 # A collection of RuboCop cops to check for performance optimizations in Ruby code.
 gem "rubocop-performance", "~> 1.2.0"
+
+gem 'simplecov', require: false, group: :test
