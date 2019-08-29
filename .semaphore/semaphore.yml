@@ -1,0 +1,51 @@
+version: v1.0
+name: CI Testing / Linting
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+
+blocks:
+  - name: "Setup"
+    task:
+      prologue:
+        commands:
+          - sem-version ruby 2.6.0
+          - sudo apt-get --allow-releaseinfo-change update
+          - sudo apt-get -y install libmysqlclient-dev
+      env_vars:
+        - name: RAILS_ENV
+          value: test
+      jobs:
+      - name: Install Dependencies
+        commands:
+          - echo "Installing Dependencies"
+          - checkout
+          - cache restore gems-$SEMAPHORE_GIT_BRANCH-$(checksum Gemfile.lock),gems-$SEMAPHORE_GIT_BRANCH-,gems-master-
+          - bundle install --deployment -j 4 --path vendor/bundle
+          - cache store gems-$SEMAPHORE_GIT_BRANCH-$(checksum Gemfile.lock) vendor/bundle
+
+  - name: "Linting & Testing"
+    task:
+      prologue:
+        commands:
+          - sem-version ruby 2.6.1
+          - checkout
+          - sudo apt-get --allow-releaseinfo-change update
+          - sudo apt-get -y install libmysqlclient-dev
+          - cache restore gems-$SEMAPHORE_GIT_BRANCH-$(checksum Gemfile.lock),gems-$SEMAPHORE_GIT_BRANCH-,gems-master-
+          - bundle install --deployment --path vendor/bundle
+      env_vars:
+        - name: RAILS_ENV
+          value: test
+      jobs:
+      - name: Ruby
+        commands:
+          - echo "Linting Ruby"
+          - curl https://raw.githubusercontent.com/abcoso/style/master/ruby/.rubocop.yml > .rubocop.yml
+          - bundle exec rubocop . -c .rubocop.yml -D
+
+      - name: RSpec
+        commands:
+          - echo "Running Specs"
+          - bundle exec rspec spec
