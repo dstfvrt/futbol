@@ -1,4 +1,4 @@
 require "stat_tracker"
 
-Rspec.describe StatTracker do
+RSpec.describe StatTracker do
 end
