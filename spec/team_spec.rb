@@ -7,7 +7,7 @@ RSpec.describe Team do
     teamName: "Atlanta United",
     abbreviation: "ATL",
     Stadium: "Mercedes-Benz Stadium",
-    link: "/api/v1/teams/1"
+    link: "/api/v1/teams/1",
   }
 
   describe "#initialize" do
