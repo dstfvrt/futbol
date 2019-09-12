@@ -11,7 +11,7 @@ RSpec.describe Team do
   }
 
   describe "#initialize" do
-    it "takes a has and contains values" do
+    it "takes a hash and contains values" do
       team = Team.new(raw_attributes)
       expect(team.team_id).to eq 1
       expect(team.franchise_id).to eq 23
