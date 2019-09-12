@@ -2,13 +2,11 @@ require "csv"
 require "pry"
 class StatTracker
   def initialize
+    @games = Hash.new
+    @teams = Hash.new
+    @games_teams = Hash.new
   end
 
   def self.from_csv(locations)
-    locations.each do |location|
-      CSV.foreach(location[1]) do |row|
-        puts row
-      end
-    end
   end
 end
