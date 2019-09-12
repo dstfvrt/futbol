@@ -1,7 +1,7 @@
 require "./lib/game"
 
 RSpec.describe Game do
-raw_attributes = {
+  raw_attributes = {
     game_id: "2012030221",
     season: "20122013",
     type: "Postseason",
@@ -11,7 +11,7 @@ raw_attributes = {
     away_goals: "2",
     home_goals: "3",
     venue: "Toyota Stadium",
-    venue_link: "/api/v1/venues/null"
+    venue_link: "/api/v1/venues/null",
   }
 
   describe "#initialize" do
