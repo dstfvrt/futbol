@@ -1,3 +1,5 @@
+require "./lib/repository"
+
 RSpec.describe Repository do
   describe "#initialize" do
     it "takes in a filepath and a record_class" do

@@ -7,6 +7,4 @@ class StatTracker
     @games_teams = Hash.new
   end
 
-  def self.from_csv(locations)
-  end
 end
