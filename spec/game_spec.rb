@@ -1,22 +1,24 @@
 require "./lib/game"
 
 RSpec.describe Game do
-  raw_attributes = {
-    game_id: "2012030221",
-    season: "20122013",
-    type: "Postseason",
-    date_time: "5/16/13",
-    away_team_id: "3",
-    home_team_id: "6",
-    away_goals: "2",
-    home_goals: "3",
-    venue: "Toyota Stadium",
-    venue_link: "/api/v1/venues/null",
-  }
+  let(:raw_attributes) do
+    {
+      game_id: "2012030221",
+      season: "20122013",
+      type: "Postseason",
+      date_time: "5/16/13",
+      away_team_id: "3",
+      home_team_id: "6",
+      away_goals: "2",
+      home_goals: "3",
+      venue: "Toyota Stadium",
+      venue_link: "/api/v1/venues/null",
+    }
+  end
 
   describe "#initialize" do
     it "takes a hash and contains values" do
-      game = Game.new(raw_attributes)
+      game = build_game
       expect(game.game_id).to eq 2012030221
       expect(game.season).to eq "20122013"
       expect(game.type).to eq "Postseason"
@@ -28,5 +30,9 @@ RSpec.describe Game do
       expect(game.venue).to eq "Toyota Stadium"
       expect(game.venue_link).to eq "/api/v1/venues/null"
     end
+  end
+
+  def build_game
+    Game.new(raw_attributes)
   end
 end
