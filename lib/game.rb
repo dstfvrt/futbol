@@ -42,4 +42,8 @@ class Game
   def venue_link
     @attributes[:venue_link]
   end
+
+  def total_score
+    away_goals + home_goals
+  end
 end

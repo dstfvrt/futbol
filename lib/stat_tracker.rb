@@ -11,4 +11,8 @@ class StatTracker
     @teams = Repository.new("./data/teams.csv", Team)
     @game_teams = Repository.new("./data/game_teams.csv", GameTeam)
   end
+
+  def highest_total_score
+    @games.max_by(total_score)
+  end
 end
