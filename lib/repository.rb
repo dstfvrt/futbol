@@ -8,6 +8,9 @@ class Repository
   end
 
   def records
-    CSV.open(filepath, headers: true, header_converters: :symbol).each.to_a
+    CSV.open(filepath, headers: true, header_converters: :symbol)
+      .map do |record|
+      record_class.new(record)
+    end
   end
 end
