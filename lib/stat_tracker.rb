@@ -1,9 +1,14 @@
 require "csv"
-require "pry"
+require "./lib/repository"
+require "./lib/game"
+require "./lib/team"
+require "./lib/game_team"
 class StatTracker
+  attr_reader :games, :teams, :game_teams
+
   def initialize
-    @games = Hash.new
-    @teams = Hash.new
-    @games_teams = Hash.new
+    @games = Repository.new("./data/games.csv", Game)
+    @teams = Repository.new("./data/teams.csv", Team)
+    @game_teams = Repository.new("./data/game_teams.csv", GameTeam)
   end
 end
