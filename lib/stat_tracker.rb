@@ -6,5 +6,4 @@ class StatTracker
     @teams = Hash.new
     @games_teams = Hash.new
   end
-
 end
