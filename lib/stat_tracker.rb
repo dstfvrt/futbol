@@ -11,4 +11,12 @@ class StatTracker
     @teams = Repository.new("./data/teams.csv", Team)
     @game_teams = Repository.new("./data/game_teams.csv", GameTeam)
   end
+
+  def best_offense
+
+  end
+
+  def count_of_teams
+    @teams.records.size
+  end
 end

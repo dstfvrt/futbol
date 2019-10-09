@@ -1,4 +1,4 @@
-require "stat_tracker"
+require "./lib/stat_tracker"
 
 RSpec.describe StatTracker do
   describe "#initialize" do
