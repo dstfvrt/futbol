@@ -47,6 +47,8 @@ class StatTracker
     end
     count = @games.records.count
     percentage = ((ties.to_f / count.to_f) * 100).round(3)
+  end
 
+  def average_goals_per_game
   end
 end
