@@ -1,7 +1,7 @@
 require "stat_tracker"
 
 RSpec.describe StatTracker do
-  let (:stat_tracker) {build_stat_tracker}
+  let (:stat_tracker) { build_stat_tracker }
   describe "#initialize" do
     it "creates repositories for Team, Game, and GameTeam records" do
       expect(stat_tracker.games).to be_kind_of Repository
