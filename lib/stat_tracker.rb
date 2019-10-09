@@ -6,9 +6,9 @@ require "./lib/game_team"
 class StatTracker
   attr_reader :games, :teams, :game_teams
 
-  def initialize
-    @games = Repository.new("./data/games.csv", Game)
-    @teams = Repository.new("./data/teams.csv", Team)
-    @game_teams = Repository.new("./data/game_teams.csv", GameTeam)
+  def initialize(filepaths)
+    @games = Repository.new(filepaths[:games], Game)
+    @teams = Repository.new(filepaths[:teams], Team)
+    @game_teams = Repository.new(filepaths[:gameteams], GameTeam)
   end
 end
