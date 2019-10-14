@@ -13,4 +13,5 @@ RSpec.describe StatTracker do
     it "returns name of team with highest average score" do
       expect(stat_tracker.best_offense).to eq ""
     end
+  end
 end
