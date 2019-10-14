@@ -14,15 +14,15 @@ class StatTracker
   end
 
   def highest_total_score
-    @games.records.max_by(&:total_score).total_score
+    @games.records.map(&:total_score).max
   end
 
   def lowest_total_score
-    @games.records.min_by(&:total_score).total_score
+    @games.records.map(&:total_score).min
   end
 
   def biggest_blowout
-    @games.records.max_by(&:score_difference).score_difference
+    @games.records.map(&:score_difference).max
   end
 
   def percentage_home_wins

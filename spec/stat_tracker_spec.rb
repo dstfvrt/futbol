@@ -12,15 +12,4 @@ RSpec.describe StatTracker do
       expect(stat_tracker.game_teams.records.first).to be_kind_of GameTeam
     end
   end
-
-  private
-
-  def build_stat_tracker
-    filepaths = Hash.new
-    filepaths[:games] = "./spec/fixtures/games.csv"
-    filepaths[:teams] = "./spec/fixtures/teams.csv"
-    filepaths[:gameteams] = "./spec/fixtures/game_teams.csv"
-
-    StatTracker.new(filepaths)
-  end
 end
