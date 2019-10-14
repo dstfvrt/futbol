@@ -50,5 +50,4 @@ class Game
   def score_difference
     home_goals - away_goals
   end
-
 end

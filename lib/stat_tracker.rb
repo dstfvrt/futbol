@@ -30,7 +30,7 @@ class StatTracker
       record.home_goals > record.away_goals
     end
     count = @games.records.count
-    percentage = ((home_wins.to_f / count.to_f) * 100).round(3)
+    ((home_wins.to_f / count.to_f) * 100).round(3)
   end
 
   def percentage_visitor_wins
@@ -38,7 +38,7 @@ class StatTracker
       record.away_goals > record.home_goals
     end
     count = @games.records.count
-    percentage = ((away_wins.to_f / count.to_f) * 100).round(3)
+    ((away_wins.to_f / count.to_f) * 100).round(3)
   end
 
   def percentage_ties
@@ -46,9 +46,6 @@ class StatTracker
       record.away_goals == record.home_goals
     end
     count = @games.records.count
-    percentage = ((ties.to_f / count.to_f) * 100).round(3)
-  end
-
-  def average_goals_per_game
+    ((ties.to_f / count.to_f) * 100).round(3)
   end
 end
