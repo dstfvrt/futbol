@@ -13,13 +13,10 @@ class StatTracker
   end
 
   def best_offense
-    @teams.records.max_by do |team|
-      goals = games.records.sum do |game|
-      end
-    end
+    teams.records.max_by { |team| team.average_score(games.records) }.team_name
   end
 
   def count_of_teams
-    @teams.records.size
+    teams.records.size
   end
 end
