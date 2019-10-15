@@ -5,25 +5,68 @@ RSpec.describe StatTracker do
 
   describe "#highest_total_score" do
     it "returns the highest sum of the winning and losing teams scores" do
-      expect(stat_tracker.highest_total_score).to eq(5)
+      games = [
+        instance_double(Game, total_score: 1),
+        instance_double(Game, total_score: 5),
+        instance_double(Game, total_score: 20),
+        instance_double(Game, total_score: 10),
+      ]
+
+      allow(stat_tracker.games)
+        .to receive(:records)
+        .and_return(games)
+
+      expect(stat_tracker.highest_total_score).to eq(20)
     end
   end
 
   describe "#lowest_total_score" do
     it "returns the lowest sum of the winning and losing teams scores" do
+      games = [
+        instance_double(Game, total_score: 1),
+        instance_double(Game, total_score: 5),
+        instance_double(Game, total_score: 20),
+        instance_double(Game, total_score: 10),
+      ]
+
+      allow(stat_tracker.games)
+        .to receive(:records)
+        .and_return(games)
+
       expect(stat_tracker.lowest_total_score).to eq(1)
     end
   end
 
   describe "#biggest_blowout" do
     it "returns the highest difference between winner and loser" do
-      expect(stat_tracker.biggest_blowout).to eq(3)
+      games = [
+        instance_double(Game, score_difference: 1),
+        instance_double(Game, score_difference: 5),
+        instance_double(Game, score_difference: 2),
+        instance_double(Game, score_difference: 3),
+      ]
+
+      allow(stat_tracker.games)
+        .to receive(:records)
+        .and_return(games)
+
+      expect(stat_tracker.biggest_blowout).to eq(5)
     end
   end
 
   describe "#percentage_home_wins" do
     it "returns percentage of games that a home team has won" do
-      expect(stat_tracker.percentage_home_wins).to eq(68.421)
+      games = [
+        instance_double(Game, home_win?: true),
+        instance_double(Game, home_win?: true),
+        instance_double(Game, home_win?: false),
+      ]
+
+      allow(stat_tracker.games)
+        .to receive(:records)
+        .and_return(games)
+
+      expect(stat_tracker.percentage_home_wins).to eq(66.667)
     end
   end
 
