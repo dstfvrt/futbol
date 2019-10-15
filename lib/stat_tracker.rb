@@ -26,26 +26,45 @@ class StatTracker
   end
 
   def percentage_home_wins
-
     home_wins = games.records.count(&:home_win?)
     count = games.records.count
     percentage(home_wins, count)
   end
 
   def percentage_visitor_wins
-    away_wins = games.records.count do |record|
-      record.away_goals > record.home_goals
-    end
+    away_wins = games.records.count(&:away_win?)
     count = games.records.count
-    ((away_wins.to_f / count.to_f) * 100).round(3)
+    percentage(away_wins, count)
   end
 
   def percentage_ties
-    ties = games.records.count do |record|
-      record.away_goals == record.home_goals
-    end
+    ties = games.records.count(&:tie?)
     count = games.records.count
-    ((ties.to_f / count.to_f) * 100).round(3)
+    percentage(ties, count)
+  end
+
+  def count_of_games_by_season
+    seasons = games.records.map(&:season).uniq
+    seasons.each_with_object({}) do |season, hash|
+      hash[season] = games.records.count do |game|
+        game.season == season
+      end
+    end
+  end
+
+  def average_goals_per_game
+    all_scores = games.records.map(&:total_score).inject(:+)
+    count = games.records.count
+    (all_scores / count.to_f).round(3)
+  end
+
+  def average_goals_by_season
+    seasons = games.records.map(&:season).uniq
+    seasons.each_with_object({}) do |season, hash|
+      hash[season] = games.records.count do |game|
+        game.season == season
+      end
+    end
   end
 
   private
@@ -53,5 +72,4 @@ class StatTracker
   def percentage(divisor, count)
     ((divisor / count.to_f) * 100).round(3)
   end
-
 end

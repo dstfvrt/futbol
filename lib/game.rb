@@ -54,4 +54,12 @@ class Game
   def home_win?
     home_goals > away_goals
   end
+
+  def away_win?
+    home_goals < away_goals
+  end
+
+  def tie?
+    home_goals == away_goals
+  end
 end
