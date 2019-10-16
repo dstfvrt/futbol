@@ -12,8 +12,8 @@ RSpec.describe StatTracker do
         instance_double(Game, total_score: 10),
       ]
 
-      allow(stat_tracker.games)
-        .to receive(:records)
+      allow(stat_tracker)
+        .to receive(:games)
         .and_return(games)
 
       expect(stat_tracker.highest_total_score).to eq(20)
@@ -29,8 +29,8 @@ RSpec.describe StatTracker do
         instance_double(Game, total_score: 10),
       ]
 
-      allow(stat_tracker.games)
-        .to receive(:records)
+      allow(stat_tracker)
+        .to receive(:games)
         .and_return(games)
 
       expect(stat_tracker.lowest_total_score).to eq(1)
@@ -46,8 +46,8 @@ RSpec.describe StatTracker do
         instance_double(Game, score_difference: 3),
       ]
 
-      allow(stat_tracker.games)
-        .to receive(:records)
+      allow(stat_tracker)
+        .to receive(:games)
         .and_return(games)
 
       expect(stat_tracker.biggest_blowout).to eq(5)
@@ -62,8 +62,8 @@ RSpec.describe StatTracker do
         instance_double(Game, home_win?: false),
       ]
 
-      allow(stat_tracker.games)
-        .to receive(:records)
+      allow(stat_tracker)
+        .to receive(:games)
         .and_return(games)
 
       expect(stat_tracker.percentage_home_wins).to eq(66.667)
@@ -78,8 +78,8 @@ RSpec.describe StatTracker do
         instance_double(Game, away_win?: false),
       ]
 
-      allow(stat_tracker.games)
-        .to receive(:records)
+      allow(stat_tracker)
+        .to receive(:games)
         .and_return(games)
 
       expect(stat_tracker.percentage_visitor_wins).to eq(66.667)
@@ -94,8 +94,8 @@ RSpec.describe StatTracker do
         instance_double(Game, tie?: false),
       ]
 
-      allow(stat_tracker.games)
-        .to receive(:records)
+      allow(stat_tracker)
+        .to receive(:games)
         .and_return(games)
 
       expect(stat_tracker.percentage_ties).to eq(66.667)
@@ -113,8 +113,8 @@ RSpec.describe StatTracker do
         instance_double(Game, season: 20142015),
       ]
 
-      allow(stat_tracker.games)
-        .to receive(:records)
+      allow(stat_tracker)
+        .to receive(:games)
         .and_return(games)
 
       seasons_hash = {
@@ -137,8 +137,8 @@ RSpec.describe StatTracker do
         instance_double(Game, total_score: 1),
       ]
 
-      allow(stat_tracker.games)
-        .to receive(:records)
+      allow(stat_tracker)
+        .to receive(:games)
         .and_return(games)
 
       expect(stat_tracker.average_goals_per_game).to eq(3.167)
@@ -156,8 +156,8 @@ RSpec.describe StatTracker do
         instance_double(Game, season: 20142015, total_score: 3),
       ]
 
-      allow(stat_tracker.games)
-        .to receive(:records)
+      allow(stat_tracker)
+        .to receive(:games)
         .and_return(games)
 
       seasons_hash = {
