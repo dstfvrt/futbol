@@ -19,4 +19,8 @@ class StatTracker
   def count_of_teams
     teams.records.size
   end
+
+  def worst_offense
+    teams.records.min_by { |team| team.average_score(games.records) }.team_name
+  end
 end
