@@ -1,6 +1,9 @@
 class Team
+  attr_reader :database
+  
   def initialize(attributes)
     @attributes = attributes
+    @database = attributes[:database]
   end
 
   def team_id
