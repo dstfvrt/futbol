@@ -3,6 +3,7 @@ require "./lib/repository"
 require "./lib/game"
 require "./lib/team"
 require "./lib/game_team"
+
 class StatTracker
   attr_reader :games, :teams, :game_teams
 
