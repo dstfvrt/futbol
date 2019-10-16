@@ -46,30 +46,42 @@ class StatTracker
   def count_of_games_by_season
     seasons = games.records.map(&:season).uniq
     seasons.each_with_object({}) do |season, hash|
-      hash[season] = games.records.count do |game|
-        game.season == season
-      end
+      hash[season] = find_games_from_season(season).count
     end
   end
 
   def average_goals_per_game
     all_scores = games.records.map(&:total_score).inject(:+)
     count = games.records.count
-    (all_scores / count.to_f).round(3)
+    average(all_scores, count)
   end
 
   def average_goals_by_season
     seasons = games.records.map(&:season).uniq
     seasons.each_with_object({}) do |season, hash|
-      hash[season] = games.records.count do |game|
-        game.season == season
-      end
+      season_games = find_games_from_season(season)
+      hash[season] = calculate_average_score_for_games(season_games)
     end
   end
 
   private
 
-  def percentage(divisor, count)
-    ((divisor / count.to_f) * 100).round(3)
+  def average(dividend, divisor)
+    (dividend / divisor.to_f).round(3)
+  end
+
+  def calculate_average_score_for_games(games)
+    total_games_score = games.map(&:total_score).inject(:+)
+    average(total_games_score, games.count)
+  end
+
+  def find_games_from_season(season)
+    games.records.select do |game|
+      game.season == season
+    end
+  end
+
+  def percentage(dividend, divisor)
+    ((dividend / divisor.to_f) * 100).round(3)
   end
 end

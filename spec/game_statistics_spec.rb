@@ -152,7 +152,7 @@ RSpec.describe StatTracker do
         instance_double(Game, season: 20122013, total_score: 1),
         instance_double(Game, season: 20122013, total_score: 5),
         instance_double(Game, season: 20132014, total_score: 1),
-        instance_double(Game, season: 20132014, total_score: 5),
+        instance_double(Game, season: 20132014, total_score: 4),
         instance_double(Game, season: 20142015, total_score: 3),
       ]
 
@@ -162,7 +162,7 @@ RSpec.describe StatTracker do
 
       seasons_hash = {
         20122013 => 2.667,
-        20132014 => 3.5,
+        20132014 => 2.5,
         20142015 => 3,
       }
       expect(stat_tracker.average_goals_by_season).to eq(seasons_hash)
