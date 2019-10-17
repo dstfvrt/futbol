@@ -3,6 +3,10 @@ class GameTeam
     @attributes = attributes
   end
 
+  def blocked_shots
+    @attributes[:shots].to_i - @attributes[:goals].to_i
+  end
+
   def game_id
     @attributes[:game_id].to_i
   end

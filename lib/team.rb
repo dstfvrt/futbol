@@ -23,8 +23,14 @@ class Team
   end
 
   def away_scores(games)
-    games.select { |game| game.away_team_id == team_id}
-    .map { |game| game.away_goals }
+    games.select { |game| game.away_team_id == team_id }
+      .map { |game| game.away_goals }
+  end
+
+  def blocked_home_shots(games, game_teams)
+    game_teams.select do |game_team|
+      games.map { |game| game.game_id unless game.home_team_id != team_id }
+        .contains(game_team.game_id)
   end
 
   def franchise_id
@@ -32,8 +38,8 @@ class Team
   end
 
   def home_scores(games)
-    home_scores = games.select { |game| game.home_team_id == team_id}
-    .map { |game| game.home_goals }
+    games.select { |game| game.home_team_id == team_id }
+      .map { |game| game.home_goals }
   end
 
   def link

@@ -39,7 +39,7 @@ RSpec.describe StatTracker do
 
   describe "#best_defense" do
     it "returns the name of the team with the lowest average allowed goals" do
-      #expect(stat_tracker.best_defense).to eq 
+      expect(stat_tracker.best_defense).to eq 0
     end
   end
 

@@ -13,6 +13,10 @@ class StatTracker
     @game_teams = Repository.new(filepaths[:gameteams], GameTeam)
   end
 
+  def best_defense
+
+  end
+
   def best_offense
     teams.records.max_by { |team| team.average_score(games.records) }.team_name
   end
