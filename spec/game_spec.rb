@@ -30,6 +30,41 @@ RSpec.describe Game do
       expect(game.venue).to eq "Toyota Stadium"
       expect(game.venue_link).to eq "/api/v1/venues/null"
     end
+
+    describe "#total_score" do
+      it "gets total goals of game" do
+        game = build_game
+        expect(game.total_score).to eq 5
+      end
+    end
+
+    describe "#score_difference" do
+      it "gets the difference between the home goals and away goals" do
+        game = build_game
+        expect(game.score_difference).to eq 1
+      end
+    end
+
+    describe "#home_win?" do
+      it "returns if the game was a home win" do
+        game = build_game
+        expect(game.home_win?).to eq true
+      end
+    end
+
+    describe "#score_difference" do
+      it "returns if the game was a away win" do
+        game = build_game
+        expect(game.away_win?).to eq false
+      end
+    end
+
+    describe "#score_difference" do
+      it "returns if the game was a tie" do
+        game = build_game
+        expect(game.tie?).to eq false
+      end
+    end
   end
 
   def build_game
