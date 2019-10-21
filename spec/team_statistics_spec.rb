@@ -24,4 +24,22 @@ RSpec.describe StatTracker do
       expect(stat_tracker.team_info).to eq(team_hash)
     end
   end
+
+  describe "#best_season" do
+    it "returns season with the highest win percentage for a team" do
+
+    end
+  end
+
+  describe "#worst_season" do
+    it "returns season with the lowest win percentage for a team" do
+
+    end
+  end
+
+  describe "#average_win_percentage" do
+    it "returns average win percentage of all games for a team" do
+
+    end
+  end
 end
