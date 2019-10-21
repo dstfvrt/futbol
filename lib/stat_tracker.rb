@@ -8,9 +8,9 @@ class StatTracker
   attr_reader :games_repo, :teams_repo, :game_teams_repo
 
   def initialize(filepaths)
-    @games_repo = build_repo(filepaths[:games], Game)
-    @teams_repo = build_repo(filepaths[:teams], Team)
-    @game_teams_repo = build_repo(filepaths[:gameteams], GameTeam)
+    @games_repo = build_repo(filepaths[:games], Game, self)
+    @teams_repo = build_repo(filepaths[:teams], Team, self)
+    @game_teams_repo = build_repo(filepaths[:gameteams], GameTeam, self)
   end
 
   def average_goals_per_game
@@ -82,8 +82,8 @@ class StatTracker
     (dividend / divisor.to_f).round(3)
   end
 
-  def build_repo(filepath, class_name)
-    Repository.new(filepath, class_name)
+  def build_repo(filepath, class_name, database)
+    Repository.new(filepath, class_name, database)
   end
 
   def calculate_average_score_for_games(games)

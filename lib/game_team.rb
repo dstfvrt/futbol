@@ -1,65 +1,63 @@
-class GameTeam
-  def initialize(attributes)
-    @attributes = attributes
-  end
+require "./lib/record"
 
+class GameTeam < Record
   def game_id
-    @attributes[:game_id].to_i
+    attributes[:game_id].to_i
   end
 
   def team_id
-    @attributes[:team_id].to_i
+    attributes[:team_id].to_i
   end
 
   def hoa
-    @attributes[:HoA]
+    attributes[:HoA]
   end
 
   def result
-    @attributes[:result]
+    attributes[:result]
   end
 
   def settled_in
-    @attributes[:settled_in]
+    attributes[:settled_in]
   end
 
   def head_coach
-    @attributes[:head_coach]
+    attributes[:head_coach]
   end
 
   def goals
-    @attributes[:goals].to_i
+    attributes[:goals].to_i
   end
 
   def shots
-    @attributes[:shots].to_i
+    attributes[:shots].to_i
   end
 
   def tackles
-    @attributes[:tackles].to_i
+    attributes[:tackles].to_i
   end
 
   def pim
-    @attributes[:pim].to_i
+    attributes[:pim].to_i
   end
 
   def power_play_opportunities
-    @attributes[:powerPlayOpportunities].to_i
+    attributes[:powerPlayOpportunities].to_i
   end
 
   def power_play_goals
-    @attributes[:powerPlayGoals].to_i
+    attributes[:powerPlayGoals].to_i
   end
 
   def face_off_win_percentage
-    @attributes[:faceOffWinPercentage].to_f
+    attributes[:faceOffWinPercentage].to_f
   end
 
   def giveaways
-    @attributes[:giveaways].to_i
+    attributes[:giveaways].to_i
   end
 
   def takeaways
-    @attributes[:takeaways].to_i
+    attributes[:takeaways].to_i
   end
 end
