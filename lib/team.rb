@@ -1,13 +1,8 @@
-class Team
-  attr_reader :tracker
+require "lib/record"
 
-  def initialize(attributes)
-    @attributes = attributes
-    @tracker = tracker
-  end
-
+class Team < Record
   def abbreviation
-    @attributes[:abbreviation]
+    attributes[:abbreviation]
   end
 
   def average_score(games)
@@ -22,7 +17,6 @@ class Team
     home_scores(games).reduce(:+) / home_scores(games).size
   end
 
-<<<<<<< Updated upstream
   def away_scores(games)
     games.select { |game| game.away_team_id == team_id }
       .map { |game| game.away_goals }
@@ -32,36 +26,18 @@ class Team
     game_teams.select do |game_team|
       games.map { |game| game.game_id unless game.home_team_id != team_id }
         .contains(game_team.game_id)
-=======
-  def away_games(games)
-    games.select { |game| game.away_team_id == team_id }
-  end
-
-  def blocked_home_shots(games, game_teams)
-    games.select { |game| game.home_team_id == team_id }
->>>>>>> Stashed changes
+    end
   end
 
   def franchise_id
-    @attributes[:franchiseId].to_i
-  end
-
-<<<<<<< Updated upstream
-  def home_scores(games)
-    games.select { |game| game.home_team_id == team_id }
-      .map { |game| game.home_goals }
-=======
-  def home_games(games)
-    games.select { |game| game.home_team_id == team_id }
->>>>>>> Stashed changes
+    attributes[:franchiseId].to_i
   end
 
   def link
     @attributes[:link]
   end
-
   def stadium
-    @attributes[:Stadium]
+    attributes[:Stadium]
   end
 
   def team_id
