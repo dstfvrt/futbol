@@ -98,6 +98,16 @@ class StatTracker
     teams_repo.records
   end
 
+  def team_info
+    teams.each_with_object({}) do |team, hash|
+      hash["team_id"] = team.team_id
+      hash["franchise_id"] = team.franchise_id
+      hash["team_name"] = team.team_name
+      hash["abbreviation"] = team.abbreviation
+      hash["link"] = team.link
+    end
+  end
+
   def total_games
     games.count
   end
