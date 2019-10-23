@@ -45,6 +45,12 @@ RSpec.describe StatTracker do
     end
   end
 
+  describe "#winningest_team" do
+    it "returns the name of the team with the highest win percentage" do
+      expect(stat_tracker.winningest_team).to eq "FC Dallas"
+    end
+  end
+
   private
 
   def build_stat_tracker

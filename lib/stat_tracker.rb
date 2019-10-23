@@ -68,7 +68,7 @@ class StatTracker
   def lowest_scoring_home_team
     teams.min_by { |team| team.average_home_score }.name
   end
-  
+
   def lowest_total_score
     games.map(&:total_score).min
   end
@@ -96,6 +96,12 @@ class StatTracker
     games.count
   end
 
+  def winningest_team
+    teams.max_by do |team|
+      percentage(team.number_of_wins, (team.games.size.nonzero? || 1))
+    end.name
+  end
+
   def worst_defense
     teams.max_by { |team| team.average_allowed_goals}.name
   end
@@ -103,6 +109,7 @@ class StatTracker
   def worst_offense
     teams.min_by { |team| team.average_score }.name
   end
+
   private
 
   def average(dividend, divisor)
