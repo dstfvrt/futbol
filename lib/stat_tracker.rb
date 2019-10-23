@@ -34,6 +34,12 @@ class StatTracker
     teams.min_by { |team| team.average_allowed_goals}.name
   end
 
+  def best_fans
+    teams.max_by do |team|
+      team.home_record - team.away_record
+    end.name
+  end
+
   def best_offense
     teams.max_by { |team| team.average_score }.name
   end
@@ -104,6 +110,11 @@ class StatTracker
 
   def worst_defense
     teams.max_by { |team| team.average_allowed_goals}.name
+  end
+
+  def worst_fans
+    teams.select { |team| team.away_record > team.home_record }
+      .map { |team| team.name }
   end
 
   def worst_offense

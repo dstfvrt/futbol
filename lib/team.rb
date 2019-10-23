@@ -48,12 +48,24 @@ class Team < Record
     games.select { |game| game.away_team_id == id }
   end
 
+  def away_record
+    away_games.count do |game|
+      game.away_goals > game.home_goals
+    end / (away_games.size.nonzero? || 1)
+  end
+
   def franchise_id
     attributes[:franchiseid].to_i
   end
 
   def home_games
     games.select { |game| game.home_team_id == id }
+  end
+
+  def home_record
+    home_games.count do |game|
+      game.home_goals > game.away_goals
+    end / (home_games.size.nonzero? || 1)
   end
 
   def link
