@@ -15,9 +15,9 @@ RSpec.describe Team do
   describe "#initialize" do
     it "takes a hash and contains values" do
       team = build_team
-      expect(team.team_id).to eq 1
+      expect(team.id).to eq 1
       expect(team.franchise_id).to eq 23
-      expect(team.team_name).to eq "Atlanta United"
+      expect(team.name).to eq "Atlanta United"
       expect(team.abbreviation).to eq "ATL"
       expect(team.stadium).to eq "Mercedes-Benz Stadium"
       expect(team.link).to eq "/api/v1/teams/1"

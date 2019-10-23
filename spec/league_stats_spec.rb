@@ -11,87 +11,41 @@ RSpec.describe StatTracker do
 
   describe "#best_offense" do
     it "returns the name of the team with highest average score" do
-      allow(stat_tracker.teams)
-        .to receive(:records)
-        .and_return(teams)
-
-      allow(stat_tracker.games)
-        .to receive(:records)
-        .and_return(games)
-
-      expect(stat_tracker.best_offense).to eq "two"
+      expect(stat_tracker.best_offense).to eq "FC Dallas"
     end
   end
 
   describe "#worst_offense" do
     it "returns the name of the team with the lowest average score" do
-      allow(stat_tracker.teams)
-        .to receive(:records)
-        .and_return(teams)
-
-      allow(stat_tracker.games)
-        .to receive(:records)
-        .and_return(games)
-
-      expect(stat_tracker.worst_offense).to eq "three"
+      expect(stat_tracker.worst_offense).to eq "Atlanta United"
     end
   end
 
   describe "#best_defense" do
     it "returns the name of the team with the lowest average allowed goals" do
-      expect(stat_tracker.best_defense).to eq 0
+      expect(stat_tracker.best_defense).to eq "Atlanta United"
+    end
+  end
+
+  describe "#worst_defense" do
+    it "returns the name of the team with the highest average allowed goals" do
+      expect(stat_tracker.worst_defense).to eq "Houston Dynamo"
+    end
+  end
+
+  describe "#highest_scoring_visitor" do
+    it "returns the name of the team with the highest average visiting score" do
+      expect(stat_tracker.highest_scoring_visitor).to eq "FC Dallas"
+    end
+  end
+
+  describe "#lowest_scoring_home_team" do
+    it "returns the name of the team with the lowest average home score" do
+      expect(stat_tracker.lowest_scoring_home_team).to eq "Atlanta United"
     end
   end
 
   private
-
-  def teams
-    team_1 = Team.new(team_id: 1, teamName: "one")
-    team_2 = Team.new(team_id: 2, teamName: "two")
-    team_3 = Team.new(team_id: 3, teamName: "three")
-    [team_1, team_2, team_3]
-  end
-
-  def games
-      [
-        instance_double(Game, {
-          away_team_id: teams[0].team_id,
-          away_goals: 3,
-          home_team_id: 0,
-          home_goals: 0
-        }),
-        instance_double(Game, {
-          away_team_id: 0,
-          away_goals: 0,
-          home_team_id: teams[0].team_id,
-          home_goals: 2
-        }),
-        instance_double(Game, {
-          away_team_id: teams[1].team_id,
-          away_goals: 4,
-          home_team_id: 0,
-          home_goals: 0
-        }),
-        instance_double(Game, {
-          away_team_id: 0,
-          away_goals: 0,
-          home_team_id: teams[1].team_id,
-          home_goals: 4
-        }),
-        instance_double(Game, {
-          away_team_id: teams[2].team_id,
-          away_goals: 1,
-          home_team_id: 0,
-          home_goals: 0
-        }),
-        instance_double(Game,{
-          away_team_id: 0,
-          away_goals: 0,
-          home_team_id: teams[2].team_id,
-          home_goals: 2
-        }),
-      ]
-  end
 
   def build_stat_tracker
     filepaths = {

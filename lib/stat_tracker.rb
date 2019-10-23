@@ -30,11 +30,23 @@ class StatTracker
     games.map(&:score_difference).max
   end
 
+  def best_defense
+    teams.min_by { |team| team.average_allowed_goals}.name
+  end
+
+  def best_offense
+    teams.max_by { |team| team.average_score }.name
+  end
+
   def count_of_games_by_season
     seasons = games.map(&:season).uniq
     seasons.each_with_object({}) do |season, hash|
       hash[season] = find_games_from_season(season).count
     end
+  end
+
+  def count_of_teams
+    teams.size
   end
 
   def game_teams
@@ -45,10 +57,18 @@ class StatTracker
     games_repo.records
   end
 
+  def highest_scoring_visitor
+    teams.max_by { |team| team.average_visiting_score }.name
+  end
+
   def highest_total_score
     games.map(&:total_score).max
   end
 
+  def lowest_scoring_home_team
+    teams.min_by { |team| team.average_home_score }.name
+  end
+  
   def lowest_total_score
     games.map(&:total_score).min
   end
@@ -76,6 +96,13 @@ class StatTracker
     games.count
   end
 
+  def worst_defense
+    teams.max_by { |team| team.average_allowed_goals}.name
+  end
+
+  def worst_offense
+    teams.min_by { |team| team.average_score }.name
+  end
   private
 
   def average(dividend, divisor)
@@ -99,21 +126,5 @@ class StatTracker
 
   def percentage(dividend, divisor)
     ((dividend / divisor.to_f) * 100).round(3)
-  end
-
-  def best_defense
-
-  end
-
-  def best_offense
-    teams.records.max_by { |team| team.average_score(games.records) }.team_name
-  end
-
-  def count_of_teams
-    teams.records.size
-  end
-
-  def worst_offense
-    teams.records.min_by { |team| team.average_score(games.records) }.team_name
   end
 end

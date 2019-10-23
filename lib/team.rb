@@ -1,50 +1,82 @@
-require "lib/record"
+require "./lib/record"
 
 class Team < Record
+  attr_reader :games
+
+  def initialize(attributes)
+    super(attributes)
+    @games = build_games
+  end
+
   def abbreviation
     attributes[:abbreviation]
   end
 
-  def average_score(games)
-    average_home_scores(games) + average_away_scores(games)
+  def average_allowed_goals
+    games.sum do |game|
+      if game.home_team_id == id
+        game.away_goals
+      else
+        game.home_goals
+      end
+    end / (games.size.nonzero? || 1)
   end
 
-  def average_away_scores(games)
-    away_scores(games).reduce(:+) / away_scores(games).size
+  def average_home_score
+    home_games.sum do |game|
+      game.home_goals
+    end / (home_games.size.nonzero? || 1)
   end
 
-  def average_home_scores(games)
-    home_scores(games).reduce(:+) / home_scores(games).size
+  def average_score
+    games.sum do |game|
+      if game.home_team_id == id
+        game.home_goals
+      else
+        game.away_goals
+      end
+    end / (games.size.nonzero? || 1)
   end
 
-  def away_scores(games)
-    games.select { |game| game.away_team_id == team_id }
-      .map { |game| game.away_goals }
+  def average_visiting_score
+    away_games.sum do |game|
+      game.away_goals
+    end / (away_games.size.nonzero? || 1)
   end
 
-  def blocked_home_shots(games, game_teams)
-    game_teams.select do |game_team|
-      games.map { |game| game.game_id unless game.home_team_id != team_id }
-        .contains(game_team.game_id)
-    end
+  def away_games
+    games.select { |game| game.away_team_id == id }
   end
 
   def franchise_id
-    attributes[:franchiseId].to_i
+    attributes[:franchiseid].to_i
+  end
+
+  def home_games
+    games.select { |game| game.home_team_id == id }
   end
 
   def link
     @attributes[:link]
   end
+
   def stadium
-    attributes[:Stadium]
+    attributes[:stadium]
   end
 
-  def team_id
+  def id
     @attributes[:team_id].to_i
   end
 
-  def team_name
-    @attributes[:teamName]
+  def name
+    @attributes[:teamname]
+  end
+
+  private
+
+  def build_games
+    database.games.select do |game|
+      game.home_team_id == id || game.away_team_id == id
+    end
   end
 end
