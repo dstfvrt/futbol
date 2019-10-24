@@ -31,7 +31,7 @@ class StatTracker
   end
 
   def best_defense
-    teams.min_by { |team| team.average_allowed_goals}.name
+    teams.min_by(&:average_allowed_goals).name
   end
 
   def best_fans
@@ -41,7 +41,7 @@ class StatTracker
   end
 
   def best_offense
-    teams.max_by { |team| team.average_score }.name
+    teams.max_by(&:average_score).name
   end
 
   def count_of_games_by_season
@@ -64,7 +64,7 @@ class StatTracker
   end
 
   def highest_scoring_visitor
-    teams.max_by { |team| team.average_visiting_score }.name
+    teams.max_by(&:average_visiting_score).name
   end
 
   def highest_total_score
@@ -72,7 +72,7 @@ class StatTracker
   end
 
   def lowest_scoring_home_team
-    teams.min_by { |team| team.average_home_score }.name
+    teams.min_by(&:average_home_score).name
   end
 
   def lowest_total_score
@@ -109,16 +109,16 @@ class StatTracker
   end
 
   def worst_defense
-    teams.max_by { |team| team.average_allowed_goals}.name
+    teams.max_by(&:average_allowed_goals).name
   end
 
   def worst_fans
     teams.select { |team| team.away_record > team.home_record }
-      .map { |team| team.name }
+      .map(&:name)
   end
 
   def worst_offense
-    teams.min_by { |team| team.average_score }.name
+    teams.min_by(&:average_score).name
   end
 
   private

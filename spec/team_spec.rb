@@ -4,10 +4,10 @@ RSpec.describe Team do
   let(:raw_attributes) do
     {
       team_id: "1",
-      franchiseId: "23",
-      teamName: "Atlanta United",
+      franchiseid: "23",
+      teamname: "Atlanta United",
       abbreviation: "ATL",
-      Stadium: "Mercedes-Benz Stadium",
+      stadium: "Mercedes-Benz Stadium",
       link: "/api/v1/teams/1",
     }
   end

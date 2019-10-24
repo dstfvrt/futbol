@@ -53,7 +53,7 @@ RSpec.describe StatTracker do
 
   describe "#best_fans" do
     it "returns the name of the team with the greatest difference between " +
-       "home and away records" do
+      "home and away records" do
       expect(stat_tracker.best_fans).to eq "LA Galaxy"
     end
   end
@@ -70,7 +70,7 @@ RSpec.describe StatTracker do
     filepaths = {
       games: "./spec/fixtures/games.csv",
       teams: "./spec/fixtures/teams.csv",
-      gameteams: "./spec/fixtures/game_teams.csv"
+      gameteams: "./spec/fixtures/game_teams.csv",
     }
 
     StatTracker.new(filepaths)

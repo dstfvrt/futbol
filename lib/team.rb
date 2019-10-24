@@ -1,13 +1,6 @@
 require "./lib/record"
 
 class Team < Record
-  attr_reader :games
-
-  def initialize(attributes)
-    super(attributes)
-    @games = build_games
-  end
-
   def abbreviation
     attributes[:abbreviation]
   end
@@ -23,9 +16,7 @@ class Team < Record
   end
 
   def average_home_score
-    home_games.sum do |game|
-      game.home_goals
-    end / (home_games.size.nonzero? || 1)
+    home_games.sum(&:home_goals) / (home_games.size.nonzero? || 1)
   end
 
   def average_score
@@ -39,9 +30,7 @@ class Team < Record
   end
 
   def average_visiting_score
-    away_games.sum do |game|
-      game.away_goals
-    end / (away_games.size.nonzero? || 1)
+    away_games.sum(&:away_goals) / (away_games.size.nonzero? || 1)
   end
 
   def away_games
@@ -56,6 +45,10 @@ class Team < Record
 
   def franchise_id
     attributes[:franchiseid].to_i
+  end
+
+  def games
+    @games ||= build_games
   end
 
   def home_games

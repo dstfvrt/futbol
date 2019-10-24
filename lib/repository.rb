@@ -1,13 +1,16 @@
 require "csv"
 
 class Repository
-  attr_reader :filepath, :record_class, :database, :records
+  attr_reader :filepath, :record_class, :database
 
   def initialize(filepath, record_class, database = nil)
     @filepath = filepath
     @record_class = record_class
     @database = database
-    @records = build_records
+  end
+
+  def records
+    @records ||= build_records
   end
 
   private
