@@ -3,7 +3,7 @@ require "./lib/repository"
 require "./lib/game"
 require "./lib/team"
 require "./lib/game_team"
-
+require 'pry'
 class StatTracker
   attr_reader :games_repo, :teams_repo, :game_teams_repo
 
@@ -51,8 +51,15 @@ class StatTracker
     end
   end
 
+
   def count_of_teams
     teams.size
+  end
+
+  def find_team_row(id)
+    teams.find do |team|
+      team.team_id == id
+    end
   end
 
   def game_teams
@@ -98,14 +105,15 @@ class StatTracker
     teams_repo.records
   end
 
-  def team_info
-    teams.each_with_object({}) do |team, hash|
-      hash["team_id"] = team.team_id
-      hash["franchise_id"] = team.franchise_id
-      hash["team_name"] = team.team_name
-      hash["abbreviation"] = team.abbreviation
-      hash["link"] = team.link
-    end
+  def team_info(id)
+    team = find_team_row(id)
+      hash = {
+        "team_id" => id,
+        "franchise_id" => team.franchise_id,
+        "team_name" => team.team_name,
+        "abbreviation" => team.abbreviation,
+        "link" => team.link
+        }
   end
 
   def total_games
