@@ -3,7 +3,7 @@ require "./lib/repository"
 require "./lib/game"
 require "./lib/team"
 require "./lib/game_team"
-require 'pry'
+
 class StatTracker
   attr_reader :games_repo, :teams_repo, :game_teams_repo
 
@@ -44,6 +44,13 @@ class StatTracker
     teams.max_by(&:average_score).name
   end
 
+  def best_season(id)
+    find_team_row(id)
+      .number_of_wins_by_season
+      .max_by { |_season, count| count }
+      .first
+  end
+
   def count_of_games_by_season
     seasons = games.map(&:season).uniq
     seasons.each_with_object({}) do |season, hash|
@@ -56,7 +63,7 @@ class StatTracker
   end
 
   def find_team_row(id)
-    teams.find do |team|
+    teams.detect do |team|
       team.id == id
     end
   end
@@ -79,10 +86,6 @@ class StatTracker
 
   def lowest_scoring_home_team
     teams.min_by(&:average_home_score).name
-  end
-
-  def best_season(id)
-    games.map()
   end
 
   def lowest_total_score
@@ -110,13 +113,13 @@ class StatTracker
 
   def team_info(id)
     team = find_team_row(id)
-      hash = {
-        "team_id" => id,
-        "franchise_id" => team.franchise_id,
-        "team_name" => team.name,
-        "abbreviation" => team.abbreviation,
-        "link" => team.link
-        }
+    {
+      "team_id" => id,
+      "franchise_id" => team.franchise_id,
+      "team_name" => team.name,
+      "abbreviation" => team.abbreviation,
+      "link" => team.link,
+    }
   end
 
   def total_games
