@@ -21,24 +21,50 @@ RSpec.describe StatTracker do
         "abbreviation" => "tm",
         "link" => "link",
       }
-
       expect(stat_tracker.team_info(1)).to eq(team_hash)
     end
   end
 
   describe "#best_season" do
     it "returns season with the highest win percentage for a team" do
-      team = [
-        instance_double(Team, team_id: 1, franchise_id: 23, team_name: "Team",
-        abbreviation: "tm", link: "link"),
+      united_id = 1
+      fire_id = 2
+      games = [
+        instance_double(Game, {
+          season: 20122013,
+          home_team_id: united_id,
+          away_team_id: fire_id,
+          home_goals: 2,
+          away_goals: 1,
+        }),
+        instance_double(Game, {
+          season: 20122013,
+          home_team_id: fire_id,
+          away_team_id: united_id,
+          home_goals: 1,
+          away_goals: 2,
+        }),
+        instance_double(Game, {
+          season: 20132014,
+          home_team_id: united_id,
+          away_team_id: fire_id,
+          home_goals: 2,
+          away_goals: 1,
+        }),
+        instance_double(Game, {
+          season: 20132014,
+          home_team_id: fire_id,
+          away_team_id: united_id,
+          home_goals: 2,
+          away_goals: 1,
+        }),
       ]
-
       allow(stat_tracker)
-        .to receive(:teams)
-        .and_return(team)
+        .to receive(:games)
+        .and_return(games)
 
 
-      expect(stat_tracker.highest_win_percentage(1)).to eq(team_hash)
+      expect(stat_tracker.best_season(united_id)).to eq(20122013)
     end
   end
 

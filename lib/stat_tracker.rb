@@ -77,9 +77,13 @@ class StatTracker
   def highest_total_score
     games.map(&:total_score).max
   end
-
+  
   def lowest_scoring_home_team
     teams.min_by(&:average_home_score).name
+  end
+
+  def best_season(id)
+    games.map()
   end
 
   def lowest_total_score
