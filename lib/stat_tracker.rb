@@ -51,14 +51,13 @@ class StatTracker
     end
   end
 
-
   def count_of_teams
     teams.size
   end
 
   def find_team_row(id)
     teams.find do |team|
-      team.team_id == id
+      team.id == id
     end
   end
 
@@ -77,7 +76,7 @@ class StatTracker
   def highest_total_score
     games.map(&:total_score).max
   end
-  
+
   def lowest_scoring_home_team
     teams.min_by(&:average_home_score).name
   end
@@ -114,7 +113,7 @@ class StatTracker
       hash = {
         "team_id" => id,
         "franchise_id" => team.franchise_id,
-        "team_name" => team.team_name,
+        "team_name" => team.name,
         "abbreviation" => team.abbreviation,
         "link" => team.link
         }

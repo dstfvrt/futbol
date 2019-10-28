@@ -6,7 +6,7 @@ RSpec.describe StatTracker do
   describe "#team_info" do
     it "returns a hash with team info" do
       team = [
-        instance_double(Team, team_id: 1, franchise_id: 23, team_name: "Team",
+        instance_double(Team, id: 1, franchise_id: 23, name: "Team",
         abbreviation: "tm", link: "link"),
       ]
 
