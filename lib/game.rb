@@ -60,4 +60,14 @@ class Game < Record
   def tie?
     home_goals == away_goals
   end
+
+  def winner?(team)
+    if team.id == home_team_id
+      home_win?
+    elsif team.id == away_team_id
+      away_win?
+    else
+      false
+    end
+  end
 end

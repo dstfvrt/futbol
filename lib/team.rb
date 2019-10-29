@@ -78,13 +78,7 @@ class Team < Record
   end
 
   def number_of_wins
-    games.count do |game|
-      if game.home_team_id == id
-        game.home_goals > game.away_goals
-      else
-        game.away_goals > game.home_goals
-      end
-    end
+    games.count { |game| game.winner?(self) }
   end
 
   private
