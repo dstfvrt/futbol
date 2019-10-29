@@ -69,6 +69,10 @@ class StatTracker
     teams.size
   end
 
+  def fewest_goals_scored(id)
+    find_team_row(id).all_goals_scored.min
+  end
+
   def find_team_row(id)
     teams.detect do |team|
       team.id == id
