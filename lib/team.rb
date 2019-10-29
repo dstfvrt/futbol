@@ -81,6 +81,20 @@ class Team < Record
     games.count { |game| game.winner?(self) }
   end
 
+  def number_lost_by_season
+    seasons = games.map(&:season).uniq
+
+    seasons.each_with_object({}) do |season, hash|
+      season_games = games.select do |game|
+        game.season == season
+      end
+
+      hash[season] = season_games.count do |game|
+        game.losing_team_id == id
+      end
+    end
+  end
+
   def number_of_wins_by_season
     seasons = games.map(&:season).uniq
 

@@ -145,6 +145,13 @@ class StatTracker
     teams.min_by(&:average_score).name
   end
 
+  def worst_season(id)
+    find_team_row(id)
+      .number_lost_by_season
+      .max_by { |_season, count| count }
+      .first
+  end
+
   private
 
   def average(dividend, divisor)

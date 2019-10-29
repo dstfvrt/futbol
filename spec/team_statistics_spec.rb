@@ -55,11 +55,30 @@ RSpec.describe StatTracker do
     end
   end
 
-  # describe "#worst_season" do
-  #   it "returns season with the lowest win percentage for a team" do
-  #
-  #   end
-  # end
+  describe "#worst_season" do
+    it "returns season with the lowest win percentage for a team" do
+      united_id = 1
+      fire_id = 2
+      team_hash = {
+        20122013 => 2,
+        20132014 => 1,
+      }
+
+      teams = [
+        instance_double(Team, {
+          id: united_id,
+          number_lost_by_season: team_hash,
+        }),
+        instance_double(Team, id: fire_id),
+      ]
+
+      allow(stat_tracker)
+        .to receive(:teams)
+        .and_return(teams)
+
+      expect(stat_tracker.worst_season(united_id)).to eq(20122013)
+    end
+  end
 
   # describe "#average_win_percentage" do
   #   it "returns average win percentage of all games for a team" do

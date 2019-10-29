@@ -190,6 +190,26 @@ RSpec.describe Team do
   end
   private
 
+  describe "#number_lost_by_season" do
+    it "returns a hash of seasons with their related losing counts" do
+      team = build_team
+      games = [
+        instance_double(Game, season: 20122013, losing_team_id: 1),
+        instance_double(Game, season: 20122013, losing_team_id: 1),
+        instance_double(Game, season: 20132014, losing_team_id: 1),
+        instance_double(Game, season: 20132014, losing_team_id: 2),
+      ]
+      allow(team)
+        .to receive(:games)
+        .and_return(games)
+
+      team_hash = {
+        20122013 => 2,
+        20132014 => 1,
+      }
+      expect(team.number_lost_by_season).to eq team_hash
+    end
+  end
   def build_team
     Team.new(raw_attributes)
   end

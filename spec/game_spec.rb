@@ -72,6 +72,13 @@ RSpec.describe Game do
         expect(game.winning_team_id).to eq 6
       end
     end
+
+    describe "#losing_team_id" do
+      it "returns the team id that lost" do
+        game = build_game
+        expect(game.losing_team_id).to eq 3
+      end
+    end
   end
 
   def build_game
