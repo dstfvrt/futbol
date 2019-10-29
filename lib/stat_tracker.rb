@@ -26,6 +26,13 @@ class StatTracker
     end
   end
 
+  def average_win_percentage(id)
+    this_team = find_team_row(id)
+    wins = this_team.number_of_wins
+    num_games = this_team.games
+    percentage(wins, num_games)
+  end
+
   def biggest_blowout
     games.map(&:score_difference).max
   end

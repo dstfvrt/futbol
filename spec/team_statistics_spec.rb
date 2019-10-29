@@ -80,9 +80,25 @@ RSpec.describe StatTracker do
     end
   end
 
-  # describe "#average_win_percentage" do
-  #   it "returns average win percentage of all games for a team" do
-  #
-  #   end
-  # end
+  describe "#average_win_percentage" do
+    it "returns average win percentage of all games for a team" do
+      united_id = 1
+      fire_id = 2
+
+      teams = [
+        instance_double(Team, {
+          id: united_id,
+          number_of_wins: 3,
+          games: 5,
+        }),
+        instance_double(Team, id: fire_id),
+      ]
+
+      allow(stat_tracker)
+        .to receive(:teams)
+        .and_return(teams)
+
+      expect(stat_tracker.average_win_percentage(united_id)).to eq(60.00)
+    end
+  end
 end
