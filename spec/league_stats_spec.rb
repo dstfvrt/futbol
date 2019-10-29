@@ -60,7 +60,7 @@ RSpec.describe StatTracker do
 
   describe "#worst_fans" do
     it "lists the names of teams with better away records than home records" do
-      expect(stat_tracker.worst_fans).to eq []
+      expect(stat_tracker.worst_fans).to eq ["FC Dallas"]
     end
   end
 
