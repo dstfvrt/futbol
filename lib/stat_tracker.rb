@@ -99,6 +99,10 @@ class StatTracker
     games.map(&:total_score).min
   end
 
+  def most_goals_scored(id)
+    find_team_row(id).all_goals_scored.max
+  end
+
   def percentage_home_wins
     home_wins = games.count(&:home_win?)
     percentage(home_wins, total_games)

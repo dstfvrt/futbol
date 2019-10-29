@@ -101,4 +101,26 @@ RSpec.describe StatTracker do
       expect(stat_tracker.average_win_percentage(united_id)).to eq(60.00)
     end
   end
+
+  describe "#most_goals_scored" do
+    it "returns the highest numbers of goals a team scored in a single game" do
+      united_id = 1
+      fire_id = 2
+      goals = [1, 3, 2, 4]
+
+      teams = [
+        instance_double(Team, {
+          id: united_id,
+          all_goals_scored: goals,
+        }),
+        instance_double(Team, id: fire_id),
+      ]
+
+      allow(stat_tracker)
+        .to receive(:teams)
+        .and_return(teams)
+
+      expect(stat_tracker.most_goals_scored(united_id)).to eq(4)
+    end
+  end
 end

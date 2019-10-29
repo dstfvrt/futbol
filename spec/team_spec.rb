@@ -210,6 +210,24 @@ RSpec.describe Team do
       expect(team.number_lost_by_season).to eq team_hash
     end
   end
+  describe "#all_goals_scored" do
+    it "returns an array of all the goals a team has scored" do
+      team = build_team
+      games = [
+        instance_double(Game, home_team_id: 1, home_goals: 1),
+        instance_double(Game, home_team_id: 1, home_goals: 3),
+        instance_double(Game, home_team_id: 2, away_team_id: 1, away_goals: 2),
+        instance_double(Game, home_team_id: 2, away_team_id: 2, away_goals: 4),
+      ]
+      allow(team)
+        .to receive(:games)
+        .and_return(games)
+
+      goals_array = [1, 3, 2, 4]
+      expect(team.all_goals_scored).to eq goals_array
+    end
+  end
+
   def build_team
     Team.new(raw_attributes)
   end

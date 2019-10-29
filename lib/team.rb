@@ -5,6 +5,16 @@ class Team < Record
     attributes[:abbreviation]
   end
 
+  def all_goals_scored
+    games.map do |game|
+      if game.home_team_id == id
+        game.home_goals
+      else
+        game.away_goals
+      end
+    end
+  end
+
   def average_allowed_goals
     games.sum do |game|
       if game.home_team_id == id
