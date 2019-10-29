@@ -145,4 +145,14 @@ RSpec.describe StatTracker do
       expect(stat_tracker.fewest_goals_scored(united_id)).to eq(1)
     end
   end
+
+  describe "#favorite_opponent" do
+    it "returns the opponent that has the lowest win % against a team" do
+    end
+  end
+  
+  describe "#rival" do
+    it "returns the opponent that has the highest win % against a team" do
+    end
+  end
 end
