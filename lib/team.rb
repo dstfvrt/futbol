@@ -38,9 +38,9 @@ class Team < Record
   end
 
   def away_record
-    away_games.count do |game|
-      game.away_goals > game.home_goals
-    end / (away_games.size.nonzero? || 1)
+    (away_games.count do |game|
+      game.winner?(self)
+    end / (away_games.size.nonzero? || 1).to_f).to_f
   end
 
   def franchise_id
@@ -56,9 +56,9 @@ class Team < Record
   end
 
   def home_record
-    home_games.count do |game|
-      game.home_goals > game.away_goals
-    end / (home_games.size.nonzero? || 1)
+    (home_games.count do |game|
+      game.winner?(self)
+    end / (home_games.size.nonzero? || 1).to_f).to_f
   end
 
   def link
