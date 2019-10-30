@@ -228,6 +228,36 @@ RSpec.describe Team do
     end
   end
 
+  describe "#oppenents" do
+    it "returns an array of opponents of a team" do
+      team = build_team
+      opponent_array = [2, 3]
+      games = [
+        instance_double(Game, {
+          home_team_id: 1,
+          away_team_id: 2,
+        }),
+        instance_double(Game, {
+          home_team_id: 1,
+          away_team_id: 2,
+        }),
+        instance_double(Game, {
+          home_team_id: 1,
+          away_team_id: 3,
+        }),
+        instance_double(Game, {
+          home_team_id: 3,
+          away_team_id: 1,
+        }),
+      ]
+      allow(team)
+        .to receive(:games)
+        .and_return(games)
+
+      expect(team.opponents).to eq opponent_array
+    end
+  end
+
   def build_team
     Team.new(raw_attributes)
   end

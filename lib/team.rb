@@ -119,6 +119,16 @@ class Team < Record
     end
   end
 
+  def opponents
+    games.map do |game|
+      if game.home_team_id == id
+        game.away_team_id
+      else
+        game.home_team_id
+      end
+    end.uniq!
+  end
+
   private
 
   def build_games
