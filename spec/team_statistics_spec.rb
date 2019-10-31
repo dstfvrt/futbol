@@ -104,7 +104,6 @@ RSpec.describe StatTracker do
 
   describe "#average_win_percentage_against_team" do
     xit "returns average win percentage of all games for a team" do
-
       teams = [
         instance_double(Team, {
           id: 1,
@@ -118,7 +117,8 @@ RSpec.describe StatTracker do
         .to receive(:teams)
         .and_return(teams)
 
-      expect(stat_tracker.average_win_percentage_against_team(1,2)).to eq(60.00)
+      expect(stat_tracker.average_win_percentage_against_team(1, 2))
+        .to eq(60.00)
     end
   end
 
@@ -184,7 +184,7 @@ RSpec.describe StatTracker do
         .to receive(:teams)
         .and_return(teams)
 
-        expect(stat_tracker.favorite_opponent(united_id)).to eq("Fire")
+      expect(stat_tracker.favorite_opponent(united_id)).to eq("Fire")
     end
   end
 
@@ -197,7 +197,6 @@ RSpec.describe StatTracker do
     xit "returns biggest difference between team & oppenent goals for a win" do
       united_id = 1
       fire_id = 2
-      goals = [1, 3, 2, 4]
 
       teams = [
         instance_double(Team, {

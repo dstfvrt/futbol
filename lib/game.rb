@@ -61,7 +61,6 @@ class Game < Record
     home_goals == away_goals
   end
 
-
   def winner?(team)
     if team.id == home_team_id
       home_win?
@@ -71,7 +70,7 @@ class Game < Record
       false
     end
   end
-  
+
   def winning_team_id
     if home_win?
       home_team_id

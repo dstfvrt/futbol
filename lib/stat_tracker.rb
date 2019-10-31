@@ -34,8 +34,8 @@ class StatTracker
   end
 
   def average_win_percentage_against_team(id, opponent_id)
-    this_team = find_team_row(id)
-    opponent_team = find_team_row(opponent_id)
+    # this_team = find_team_row(id)
+    # opponent_team = find_team_row(opponent_id)
 
     # games = this_team.games.map do |game|
     #   game.
@@ -86,7 +86,7 @@ class StatTracker
     opponents.map do |opponent|
       average_win_percentage_against_team(opponent, id)
     end
-    .min
+      .min
   end
 
   def fewest_goals_scored(id)

@@ -188,7 +188,6 @@ RSpec.describe Team do
       expect(team.number_of_wins_by_season).to eq team_hash
     end
   end
-  private
 
   describe "#number_lost_by_season" do
     it "returns a hash of seasons with their related losing counts" do
@@ -257,6 +256,8 @@ RSpec.describe Team do
       expect(team.opponents).to eq opponent_array
     end
   end
+
+  private
 
   def build_team
     Team.new(raw_attributes)
