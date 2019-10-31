@@ -69,7 +69,9 @@ class Game < Record
       away_win?
     else
       false
-end
+    end
+  end
+  
   def winning_team_id
     if home_win?
       home_team_id
