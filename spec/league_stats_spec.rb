@@ -54,13 +54,14 @@ RSpec.describe StatTracker do
   describe "#best_fans" do
     it "returns the name of the team with the greatest difference between " +
       "home and away records" do
-      expect(stat_tracker.best_fans).to eq "LA Galaxy"
+      expect(stat_tracker.best_fans).to eq "New York City FC"
     end
   end
 
   describe "#worst_fans" do
     it "lists the names of teams with better away records than home records" do
-      expect(stat_tracker.worst_fans).to eq ["FC Dallas"]
+      expect(stat_tracker.worst_fans).to eq ["FC Dallas",
+                                             "Sporting Kansas City"]
     end
   end
 
