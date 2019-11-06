@@ -30,11 +30,29 @@ class StatTracker
     games.map(&:score_difference).max
   end
 
+  def best_defense
+    teams.min_by(&:average_allowed_goals).name
+  end
+
+  def best_fans
+    teams.max_by do |team|
+      team.home_record - team.away_record
+    end.name
+  end
+
+  def best_offense
+    teams.max_by(&:average_score).name
+  end
+
   def count_of_games_by_season
     seasons = games.map(&:season).uniq
     seasons.each_with_object({}) do |season, hash|
       hash[season] = find_games_from_season(season).count
     end
+  end
+
+  def count_of_teams
+    teams.size
   end
 
   def game_teams
@@ -45,8 +63,16 @@ class StatTracker
     games_repo.records
   end
 
+  def highest_scoring_visitor
+    teams.max_by(&:average_visiting_score).name
+  end
+
   def highest_total_score
     games.map(&:total_score).max
+  end
+
+  def lowest_scoring_home_team
+    teams.min_by(&:average_home_score).name
   end
 
   def lowest_total_score
@@ -74,6 +100,25 @@ class StatTracker
 
   def total_games
     games.count
+  end
+
+  def winningest_team
+    teams.max_by do |team|
+      percentage(team.number_of_wins, (team.games.size.nonzero? || 1))
+    end.name
+  end
+
+  def worst_defense
+    teams.max_by(&:average_allowed_goals).name
+  end
+
+  def worst_fans
+    teams.select { |team| team.away_record > team.home_record }
+      .map(&:name)
+  end
+
+  def worst_offense
+    teams.min_by(&:average_score).name
   end
 
   private

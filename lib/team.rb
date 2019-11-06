@@ -1,27 +1,91 @@
 require "./lib/record"
 
 class Team < Record
-  def team_id
-    attributes[:team_id].to_i
-  end
-
-  def franchise_id
-    attributes[:franchiseId].to_i
-  end
-
-  def team_name
-    attributes[:teamName]
-  end
-
   def abbreviation
     attributes[:abbreviation]
   end
 
-  def stadium
-    attributes[:Stadium]
+  def average_allowed_goals
+    games.sum do |game|
+      if game.home_team_id == id
+        game.away_goals
+      else
+        game.home_goals
+      end
+    end / (games.size.nonzero? || 1)
+  end
+
+  def average_home_score
+    home_games.sum(&:home_goals) / (home_games.size.nonzero? || 1)
+  end
+
+  def average_score
+    games.sum do |game|
+      if game.home_team_id == id
+        game.home_goals
+      else
+        game.away_goals
+      end
+    end / (games.size.nonzero? || 1)
+  end
+
+  def average_visiting_score
+    away_games.sum(&:away_goals) / (away_games.size.nonzero? || 1)
+  end
+
+  def away_games
+    games.select { |game| game.away_team_id == id }
+  end
+
+  def away_record
+    (away_games.count do |game|
+      game.winner?(self)
+    end / (away_games.size.nonzero? || 1).to_f).to_f
+  end
+
+  def franchise_id
+    attributes[:franchiseid].to_i
+  end
+
+  def games
+    @games ||= build_games
+  end
+
+  def home_games
+    games.select { |game| game.home_team_id == id }
+  end
+
+  def home_record
+    (home_games.count do |game|
+      game.winner?(self)
+    end / (home_games.size.nonzero? || 1).to_f).to_f
   end
 
   def link
-    attributes[:link]
+    @attributes[:link]
+  end
+
+  def stadium
+    attributes[:stadium]
+  end
+
+  def id
+    @attributes[:team_id].to_i
+  end
+
+  def name
+    @attributes[:teamname]
+  end
+
+  def number_of_wins
+    games.count { |game| game.winner?(self) }
+  end
+
+  private
+
+  def build_games
+    database.games.select do |game|
+      game.home_team_id == id || game.away_team_id == id
+    end
   end
 end

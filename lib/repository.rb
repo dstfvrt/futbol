@@ -10,13 +10,17 @@ class Repository
   end
 
   def records
+    @records ||= build_records
+  end
+
+  private
+
+  def build_records
     CSV.open(filepath, csv_options).map do |record_attributes|
       record_attributes[:database] = database
       record_class.new(record_attributes)
     end
   end
-
-  private
 
   def csv_options
     {

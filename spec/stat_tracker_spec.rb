@@ -1,4 +1,4 @@
-require "stat_tracker"
+require "./lib/stat_tracker"
 
 RSpec.describe StatTracker do
   let (:stat_tracker) { build_stat_tracker }
