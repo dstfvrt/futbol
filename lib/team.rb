@@ -15,16 +15,6 @@ class Team < Record
     end
   end
 
-  def average_allowed_goals
-    games.sum do |game|
-      if game.home_team_id == id
-        game.away_goals
-      else
-        game.home_goals
-      end
-    end / (games.size.nonzero? || 1)
-  end
-
   def average_home_score
     home_games.sum(&:home_goals) / (home_games.size.nonzero? || 1)
   end
