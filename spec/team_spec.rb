@@ -168,6 +168,7 @@ RSpec.describe Team do
       expect(team.number_of_wins).to eq 2
     end
   end
+
   describe "#number_of_wins_by_season" do
     it "returns a hash of seasons with their related win counts" do
       team = build_team
@@ -209,6 +210,7 @@ RSpec.describe Team do
       expect(team.number_lost_by_season).to eq team_hash
     end
   end
+
   describe "#all_goals_scored" do
     it "returns an array of all the goals a team has scored" do
       team = build_team
