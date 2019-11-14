@@ -42,7 +42,7 @@ class Team < Record
   def name
     @attributes[:teamname]
   end
-  
+
   private
 
   def build_games

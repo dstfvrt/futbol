@@ -221,7 +221,7 @@ RSpec.describe StatTracker do
         .to receive(:teams)
         .and_return(teams)
 
-        expect(stat_tracker.head_to_head(united_id)).to eq(records_hash)
+      expect(stat_tracker.head_to_head(united_id)).to eq(records_hash)
     end
   end
 
@@ -229,20 +229,20 @@ RSpec.describe StatTracker do
     xit "returns a summary of each season for a team" do
       united_id = 1
       fire_id = 2
-      summary_hash = {
-        :regular_season => {
-          :win_percentage =>,
-          :total_goals_scored =>,
-          :average_goals_scored =>,
-          :average_goals_against =>,
-        },
-        :post_season => {
-          :win_percentage =>,
-          :total_goals_scored =>,
-          :average_goals_scored =>,
-          :average_goals_against =>,
-        },
-      }
+      summary_hash = {}
+      #   :regular_season => {
+      #     :win_percentage => ,
+      #     :total_goals_scored => ,
+      #     :average_goals_scored => ,
+      #     :average_goals_against => ,
+      #   },
+      #   :post_season => {
+      #     :win_percentage => ,
+      #     :total_goals_scored => ,
+      #     :average_goals_scored => ,
+      #     :average_goals_against => ,
+      #   },
+      # }
 
       teams = [
         instance_double(Team, id: united_id),
@@ -253,7 +253,7 @@ RSpec.describe StatTracker do
         .to receive(:teams)
         .and_return(teams)
 
-        expect(stat_tracker.seasonal_summary(united_id)).to eq(summary_hash)
+      expect(stat_tracker.seasonal_summary(united_id)).to eq(summary_hash)
     end
   end
 end
