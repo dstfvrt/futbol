@@ -103,7 +103,7 @@ RSpec.describe StatTracker do
   end
 
   describe "#average_win_percentage_against_team" do
-    xit "returns average win percentage of all games for a team" do
+    it "returns average win percentage of all games for a team" do
       teams = [
         instance_double(Team, {
           id: 1,
@@ -196,13 +196,24 @@ RSpec.describe StatTracker do
   describe "#biggest_team_blowout" do
     xit "returns biggest difference between team & oppenent goals for a win" do
       united_id = 1
+      expect(stat_tracker.biggest_team_blowout(united_id)).to eq(1)
+    end
+  end
+
+  describe "#worst_loss" do
+    xit "returns biggest difference between team & oppenent goals for a loss" do
+    end
+  end
+
+  describe "#head_to_head" do
+    xit "returns the record win percentage of a team against each opponent" do
+      united_id = 1
       fire_id = 2
+      records_hash = {
+      }
 
       teams = [
-        instance_double(Team, {
-          id: united_id,
-          score_difference: 2,
-        }),
+        instance_double(Team, id: united_id),
         instance_double(Team, id: fire_id),
       ]
 
@@ -210,12 +221,39 @@ RSpec.describe StatTracker do
         .to receive(:teams)
         .and_return(teams)
 
-      expect(stat_tracker.biggest_team_blowout(united_id)).to eq(1)
+        expect(stat_tracker.head_to_head(united_id)).to eq(records_hash)
     end
   end
 
-  describe "#worst_loss" do
-    xit "returns biggest difference between team & oppenent goals for a loss" do
+  describe "#seasonal_summary" do
+    xit "returns a summary of each season for a team" do
+      united_id = 1
+      fire_id = 2
+      summary_hash = {
+        :regular_season => {
+          :win_percentage =>,
+          :total_goals_scored =>,
+          :average_goals_scored =>,
+          :average_goals_against =>,
+        },
+        :post_season => {
+          :win_percentage =>,
+          :total_goals_scored =>,
+          :average_goals_scored =>,
+          :average_goals_against =>,
+        },
+      }
+
+      teams = [
+        instance_double(Team, id: united_id),
+        instance_double(Team, id: fire_id),
+      ]
+
+      allow(stat_tracker)
+        .to receive(:teams)
+        .and_return(teams)
+
+        expect(stat_tracker.seasonal_summary(united_id)).to eq(summary_hash)
     end
   end
 end
