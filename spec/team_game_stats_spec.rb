@@ -113,14 +113,10 @@ RSpec.describe TeamGameStats do
       games = [
         double("Game", home_team_id: 1, away_team_id: 0),
         double("Game", home_team_id: 0, away_team_id: 1),
-        double("Game", home_team_id: 0, away_team_id: 0),
       ]
       game_stats = build_game_stats(team: team, games: games)
 
-      expect(game_stats.games).to eq (games
-        .select do |game|
-          game.away_team_id == team.id || game.home_team_id == team.id
-        end)
+      expect(game_stats.games).to eq games
     end
   end
 
@@ -216,7 +212,6 @@ RSpec.describe TeamGameStats do
         double("Game", home_team_id: 1, home_goals: 1),
         double("Game", home_team_id: 1, home_goals: 3),
         double("Game", home_team_id: 2, away_team_id: 1, away_goals: 2),
-        double("Game", home_team_id: 2, away_team_id: 2, away_goals: 4),
       ]
       game_stats = build_game_stats(team: team, games: games)
 

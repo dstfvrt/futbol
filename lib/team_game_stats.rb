@@ -1,8 +1,8 @@
 class TeamGameStats
-  attr_reader :team
+  attr_reader :team, :games
 
   def initialize(team:, games:)
-    @all_games = games
+    @games = games
     @team = team
   end
 
@@ -58,10 +58,6 @@ class TeamGameStats
     end
 
     average(number, away_games.size)
-  end
-
-  def games
-    @games ||= build_games
   end
 
   def home_games
@@ -122,11 +118,5 @@ class TeamGameStats
     return 0 if divisor.zero?
 
     dividend / divisor.to_f
-  end
-
-  def build_games
-    @all_games.select do |game|
-      game.home_team_id == team.id || game.away_team_id == team.id
-    end
   end
 end
