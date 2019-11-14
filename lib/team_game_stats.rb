@@ -78,6 +78,10 @@ class TeamGameStats
     games.count { |game| game.winner?(self) }
   end
 
+  def number_of_wins_against_team(opponent)
+    games.count { |game| game.winner?(self) }
+  end
+
   def number_of_wins_by_season
     seasons = games.map(&:season).uniq
 

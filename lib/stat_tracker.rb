@@ -34,15 +34,12 @@ class StatTracker
   end
 
   def average_win_percentage_against_team(id, opponent_id)
-    # this_team = find_team_row(id)
+    this_team = find_team_row(id)
     # opponent_team = find_team_row(opponent_id)
 
-    # games = this_team.games.map do |game|
-    #   game.
-    # end
-    # wins = this_team.number_of_wins_against_team(opponent_id)
-    # num_games = this_team.games
-    # percentage(wins, num_games)
+     wins = this_team.number_of_wins_against_team(opponent_id)
+     num_games = this_team.games
+     percentage(wins, num_games)
   end
 
   def biggest_blowout
