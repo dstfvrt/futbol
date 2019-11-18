@@ -54,7 +54,7 @@ class TeamGameStats
 
   def away_record
     number = away_games.count do |game|
-      game.winner?(self)
+      game.winner?(team)
     end
 
     average(number, away_games.size)
@@ -66,12 +66,12 @@ class TeamGameStats
 
   def home_record
     (home_games.count do |game|
-      game.winner?(self)
+      game.winner?(team)
     end / (home_games.size.nonzero? || 1).to_f).to_f
   end
 
   def number_of_wins
-    games.count { |game| game.winner?(self) }
+    games.count { |game| game.winner?(team) }
   end
 
   def number_of_wins_by_season

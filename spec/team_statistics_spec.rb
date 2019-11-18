@@ -129,11 +129,11 @@ RSpec.describe StatTracker do
       goals = [1, 3, 2, 4]
 
       teams = [
-        instance_double(Team, {
-          id: united_id,
+        instance_double(TeamGameStats, {
+          team_id: united_id,
           all_goals_scored: goals,
         }),
-        instance_double(Team, id: fire_id),
+        instance_double(TeamGameStats, id: fire_id),
       ]
 
       allow(stat_tracker)
