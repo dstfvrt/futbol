@@ -5,20 +5,6 @@ class Team < Record
     attributes[:abbreviation]
   end
 
-  def average_allowed_goals
-    games.sum do |game|
-      if game.home_team_id == id
-        game.away_goals
-      else
-        game.home_goals
-      end
-    end / (games.size.nonzero? || 1)
-  end
-
-  def average_home_score
-    home_games.sum(&:home_goals) / (home_games.size.nonzero? || 1)
-  end
-
   def average_score
     games.sum do |game|
       if game.home_team_id == id
@@ -29,18 +15,8 @@ class Team < Record
     end / (games.size.nonzero? || 1)
   end
 
-  def average_visiting_score
-    away_games.sum(&:away_goals) / (away_games.size.nonzero? || 1)
-  end
-
   def away_games
     games.select { |game| game.away_team_id == id }
-  end
-
-  def away_record
-    (away_games.count do |game|
-      game.winner?(self)
-    end / (away_games.size.nonzero? || 1).to_f).to_f
   end
 
   def franchise_id
@@ -49,16 +25,6 @@ class Team < Record
 
   def games
     @games ||= build_games
-  end
-
-  def home_games
-    games.select { |game| game.home_team_id == id }
-  end
-
-  def home_record
-    (home_games.count do |game|
-      game.winner?(self)
-    end / (home_games.size.nonzero? || 1).to_f).to_f
   end
 
   def link
@@ -75,10 +41,6 @@ class Team < Record
 
   def name
     @attributes[:teamname]
-  end
-
-  def number_of_wins
-    games.count { |game| game.winner?(self) }
   end
 
   private

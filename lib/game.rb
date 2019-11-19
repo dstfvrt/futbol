@@ -70,4 +70,20 @@ class Game < Record
       false
     end
   end
+
+  def winning_team_id
+    if home_win?
+      home_team_id
+    else
+      away_team_id
+    end
+  end
+
+  def losing_team_id
+    if home_win?
+      away_team_id
+    else
+      home_team_id
+    end
+  end
 end
