@@ -28,8 +28,7 @@ class StatTracker
   end
 
   def average_win_percentage(id)
-    this_team = find_team_row(id)
-    team_game_stats = TeamGameStats.new(team: this_team, games: this_team.games)
+    team_game_stats = get_stats_by_team(id)
     wins = team_game_stats.number_of_wins
     num_games = team_game_stats.games.count
     percentage(wins, num_games)
@@ -39,9 +38,9 @@ class StatTracker
     this_team = find_team_row(id)
     # opponent_team = find_team_row(opponent_id)
 
-     wins = this_team.number_of_wins_against_team(opponent_id)
-     num_games = this_team.games
-     percentage(wins, num_games)
+    wins = this_team.number_of_wins_against_team(opponent_id)
+    num_games = this_team.games
+    percentage(wins, num_games)
   end
 
   def biggest_blowout
@@ -76,16 +75,7 @@ class StatTracker
   end
 
   def best_season(id)
-    this_team = find_team_row(id)
-    team_game_stats = TeamGameStats.new(team: this_team, games: this_team.games)
-    team_game_stats.number_of_wins_by_season
-      .max_by { |_season, count| count }
-      .first
-  end
-
-  def best_season(id)
-    find_team_row(id)
-      .number_of_wins_by_season
+    get_stats_by_team(id).number_of_wins_by_season
       .max_by { |_season, count| count }
       .first
   end
@@ -110,15 +100,7 @@ class StatTracker
   end
 
   def fewest_goals_scored(id)
-    this_team = find_team_row(id)
-    team_game_stats = TeamGameStats.new(team: this_team, games: this_team.games)
-    team_game_stats.all_goals_scored.min
-  end
-
-  def find_team_row(id)
-    teams.detect do |team|
-      team.id == id
-    end
+    get_stats_by_team(id).all_goals_scored.min
   end
 
   def game_teams
@@ -156,9 +138,7 @@ class StatTracker
   end
 
   def most_goals_scored(id)
-    this_team = find_team_row(id)
-    team_game_stats = TeamGameStats.new(team: this_team, games: this_team.games)
-    team_game_stats.all_goals_scored.max
+    get_stats_by_team(id).all_goals_scored.max
   end
 
   def percentage_home_wins
@@ -231,16 +211,7 @@ class StatTracker
   end
 
   def worst_season(id)
-    this_team = find_team_row(id)
-    team_game_stats = TeamGameStats.new(team: this_team, games: this_team.games)
-    team_game_stats.number_lost_by_season
-      .max_by { |_season, count| count }
-      .first
-  end
-
-  def worst_season(id)
-    find_team_row(id)
-      .number_lost_by_season
+    get_stats_by_team(id).number_lost_by_season
       .max_by { |_season, count| count }
       .first
   end
@@ -264,6 +235,17 @@ class StatTracker
     games.select do |game|
       game.season == season
     end
+  end
+
+  def find_team_row(id)
+    teams.detect do |team|
+      team.id == id
+    end
+  end
+
+  def get_stats_by_team(id)
+    this_team = find_team_row(id)
+    TeamGameStats.new(team: this_team, games: this_team.games)
   end
 
   def percentage(dividend, divisor)
