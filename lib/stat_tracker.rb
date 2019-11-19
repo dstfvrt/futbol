@@ -3,6 +3,7 @@ require "./lib/repository"
 require "./lib/game"
 require "./lib/team"
 require "./lib/game_team"
+require "./lib/team_game_stats"
 
 class StatTracker
   attr_reader :games_repo, :teams_repo, :game_teams_repo
@@ -28,8 +29,9 @@ class StatTracker
 
   def average_win_percentage(id)
     this_team = find_team_row(id)
-    wins = this_team.number_of_wins
-    num_games = this_team.games
+    team_game_stats = TeamGameStats.new(team: this_team, games: this_team.games)
+    wins = team_game_stats.number_of_wins
+    num_games = team_game_stats.games.count
     percentage(wins, num_games)
   end
 
@@ -50,22 +52,36 @@ class StatTracker
   end
 
   def best_defense
-    teams.min_by(&:average_allowed_goals).name
+    team = teams.min_by do |t|
+      team_game_stats = TeamGameStats.new(team: t, games: t.games)
+      team_game_stats.average_allowed_goals
+    end
+
+    team.name
   end
 
   def best_fans
-    teams.max_by do |team|
-      team.home_record - team.away_record
-    end.name
+    team = teams.max_by do |t|
+      team_game_stats = TeamGameStats.new(team: t, games: t.games)
+      team_game_stats.home_record - team_game_stats.away_record
+    end
+
+    team.name
   end
 
   def best_offense
-    teams.max_by(&:average_score).name
+    team = teams.max_by do |t|
+      team_game_stats = TeamGameStats.new(team: t, games: t.games)
+      team_game_stats.average_score
+    end
+
+    team.name
   end
 
   def best_season(id)
-    find_team_row(id)
-      .number_of_wins_by_season
+    this_team = find_team_row(id)
+    team_game_stats = TeamGameStats.new(team: this_team, games: this_team.games)
+    team_game_stats.number_of_wins_by_season
       .max_by { |_season, count| count }
       .first
   end
@@ -90,7 +106,9 @@ class StatTracker
   end
 
   def fewest_goals_scored(id)
-    find_team_row(id).all_goals_scored.min
+    this_team = find_team_row(id)
+    team_game_stats = TeamGameStats.new(team: this_team, games: this_team.games)
+    team_game_stats.all_goals_scored.min
   end
 
   def find_team_row(id)
@@ -108,7 +126,12 @@ class StatTracker
   end
 
   def highest_scoring_visitor
-    teams.max_by(&:average_visiting_score).name
+    team = teams.max_by do |t|
+      team_game_stats = TeamGameStats.new(team: t, games: t.games)
+      team_game_stats.average_visiting_score
+    end
+
+    team.name
   end
 
   def highest_total_score
@@ -116,7 +139,12 @@ class StatTracker
   end
 
   def lowest_scoring_home_team
-    teams.min_by(&:average_home_score).name
+    team = teams.min_by do |t|
+      team_game_stats = TeamGameStats.new(team: t, games: t.games)
+      team_game_stats.average_home_score
+    end
+
+    team.name
   end
 
   def lowest_total_score
@@ -124,7 +152,9 @@ class StatTracker
   end
 
   def most_goals_scored(id)
-    find_team_row(id).all_goals_scored.max
+    this_team = find_team_row(id)
+    team_game_stats = TeamGameStats.new(team: this_team, games: this_team.games)
+    team_game_stats.all_goals_scored.max
   end
 
   def percentage_home_wins
@@ -162,27 +192,44 @@ class StatTracker
   end
 
   def winningest_team
-    teams.max_by do |team|
-      percentage(team.number_of_wins, (team.games.size.nonzero? || 1))
-    end.name
+    team = teams.max_by do |t|
+      team_game_stats = TeamGameStats.new(team: t, games: t.games)
+      percentage(team_game_stats.number_of_wins, t.games.size)
+    end
+
+    team.name
   end
 
   def worst_defense
-    teams.max_by(&:average_allowed_goals).name
+    team = teams.max_by do |t|
+      team_game_stats = TeamGameStats.new(team: t, games: t.games)
+      team_game_stats.average_allowed_goals
+    end
+
+    team.name
   end
 
   def worst_fans
-    teams.select { |team| team.away_record > team.home_record }
+    teams.select do |team|
+      team_game_stats = TeamGameStats.new(team: team, games: team.games)
+      team_game_stats.away_record > team_game_stats.home_record
+    end
       .map(&:name)
   end
 
   def worst_offense
-    teams.min_by(&:average_score).name
+    team = teams.min_by do |t|
+      team_game_stats = TeamGameStats.new(team: t, games: t.games)
+      team_game_stats.average_score
+    end
+
+    team.name
   end
 
   def worst_season(id)
-    find_team_row(id)
-      .number_lost_by_season
+    this_team = find_team_row(id)
+    team_game_stats = TeamGameStats.new(team: this_team, games: this_team.games)
+    team_game_stats.number_lost_by_season
       .max_by { |_season, count| count }
       .first
   end
@@ -209,6 +256,8 @@ class StatTracker
   end
 
   def percentage(dividend, divisor)
+    return 0 if divisor.zero?
+
     ((dividend / divisor.to_f) * 100).round(3)
   end
 end
