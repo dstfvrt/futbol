@@ -1,8 +1,8 @@
 class TeamGameStats
-  attr_reader :team
+  attr_reader :team, :games
 
   def initialize(team:, games:)
-    @all_games = games
+    @games = games
     @team = team
   end
 
@@ -54,14 +54,10 @@ class TeamGameStats
 
   def away_record
     number = away_games.count do |game|
-      game.winner?(self)
+      game.winner?(team)
     end
 
     average(number, away_games.size)
-  end
-
-  def games
-    @games ||= build_games
   end
 
   def home_games
@@ -70,16 +66,12 @@ class TeamGameStats
 
   def home_record
     (home_games.count do |game|
-      game.winner?(self)
+      game.winner?(team)
     end / (home_games.size.nonzero? || 1).to_f).to_f
   end
 
   def number_of_wins
-    games.count { |game| game.winner?(self) }
-  end
-
-  def number_of_wins_against_team(opponent)
-    games.count { |game| game.winner?(self) }
+    games.count { |game| game.winner?(team) }
   end
 
   def number_of_wins_by_season
@@ -126,11 +118,5 @@ class TeamGameStats
     return 0 if divisor.zero?
 
     dividend / divisor.to_f
-  end
-
-  def build_games
-    @all_games.select do |game|
-      game.home_team_id == team.id || game.away_team_id == team.id
-    end
   end
 end
