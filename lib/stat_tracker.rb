@@ -35,11 +35,10 @@ class StatTracker
   end
 
   def average_win_percentage_against_team(id, opponent_id)
-    this_team = find_team_row(id)
-    # opponent_team = find_team_row(opponent_id)
+    this_team = get_stats_by_team(id)
 
     wins = this_team.number_of_wins_against_team(opponent_id)
-    num_games = this_team.games
+    num_games = this_team.games_against_team(opponent_id)
     percentage(wins, num_games)
   end
 
@@ -92,11 +91,12 @@ class StatTracker
   end
 
   def favorite_opponent(id)
-    opponents = find_team_row(id).opponents
-    opponents.map do |opponent|
-      average_win_percentage_against_team(opponent, id)
-    end
-      .min
+    opponent = get_stats_by_team(id).opponents
+      .min_by do |opponent_id|
+        average_win_percentage_against_team(opponent_id, id)
+      end
+    opponent_team = get_stats_by_team(opponent)
+    opponent_team.team.name
   end
 
   def fewest_goals_scored(id)
@@ -154,6 +154,15 @@ class StatTracker
   def percentage_visitor_wins
     away_wins = games.count(&:away_win?)
     percentage(away_wins, total_games)
+  end
+
+  def rival(id)
+    opponent = get_stats_by_team(id).opponents
+      .max_by do |opponent_id|
+        average_win_percentage_against_team(opponent_id, id)
+      end
+    opponent_team = get_stats_by_team(opponent)
+    opponent_team.team.name
   end
 
   def teams

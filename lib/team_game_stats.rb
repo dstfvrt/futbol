@@ -60,6 +60,12 @@ class TeamGameStats
     average(number, away_games.size)
   end
 
+  def games_against_team(opponent_id)
+    games.count do |game|
+      game.home_team_id == opponent_id || game.away_team_id == opponent_id
+    end
+  end
+
   def home_games
     games.select { |game| game.home_team_id == team.id }
   end
@@ -72,6 +78,14 @@ class TeamGameStats
 
   def number_of_wins
     games.count { |game| game.winner?(team) }
+  end
+
+  def number_of_wins_against_team(opponent_id)
+    games.count do |game|
+      if game.home_team_id == opponent_id || game.away_team_id == opponent_id
+        game.winning_team_id == team.id
+      end
+    end
   end
 
   def number_of_wins_by_season

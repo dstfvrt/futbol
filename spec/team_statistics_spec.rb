@@ -52,9 +52,9 @@ RSpec.describe StatTracker do
   end
 
   describe "#average_win_percentage_against_team" do
-    xit "returns average win percentage of all games for a team" do
-      expect(stat_tracker.average_win_percentage_against_team(6, 3))
-        .to eq(60.00)
+    it "returns average win percentage of all games for a team" do
+      expect(stat_tracker.average_win_percentage_against_team(16, 17))
+        .to eq(42.857)
     end
   end
 
@@ -75,15 +75,18 @@ RSpec.describe StatTracker do
   end
 
   describe "#favorite_opponent" do
-    xit "returns the opponent that has the lowest win % against a team" do
+    it "returns the opponent that has the lowest win % against a team" do
       united_id = 6
 
-      expect(stat_tracker.favorite_opponent(united_id)).to eq("Fire")
+      expect(stat_tracker.favorite_opponent(united_id)).to eq("Houston Dynamo")
     end
   end
 
   describe "#rival" do
-    xit "returns the opponent that has the highest win % against a team" do
+    it "returns the opponent that has the highest win % against a team" do
+      united_id = 6
+      opponent = "Sporting Kansas City"
+      expect(stat_tracker.rival(united_id)).to eq(opponent)
     end
   end
 

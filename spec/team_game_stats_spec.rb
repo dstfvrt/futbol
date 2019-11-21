@@ -120,6 +120,21 @@ RSpec.describe TeamGameStats do
     end
   end
 
+  describe "#games_against_team" do
+    it "returns an array of all games the team participated in" do
+      team = instance_double(Team, id: 1)
+      opponent = 2
+      games = [
+        double("Game", home_team_id: 1, away_team_id: 2),
+        double("Game", home_team_id: 2, away_team_id: 1),
+        double("Game", home_team_id: 3, away_team_id: 1),
+        double("Game", home_team_id: 1, away_team_id: 3),
+      ]
+      game_stats = build_game_stats(team: team, games: games)
+
+      expect(game_stats.games_against_team(opponent)).to eq 2
+    end
+  end
   describe "#home_games" do
     it "returns an array of all games where the team is home" do
       team = instance_double(Team, id: 1)
@@ -164,7 +179,21 @@ RSpec.describe TeamGameStats do
       expect(game_stats.number_of_wins).to eq 2
     end
   end
+  describe "#number_of_wins_against_team" do
+    it "returns a hash of seasons with their related win counts" do
+      team = instance_double(Team, id: 1)
+      opponent = 2
+      games = [
+        double("Game", winning_team_id: 1, home_team_id: 1, away_team_id: 2),
+        double("Game", winning_team_id: 1, home_team_id: 2, away_team_id: 1),
+        double("Game", winning_team_id: 2, home_team_id: 1, away_team_id: 2),
+        double("Game", winning_team_id: 1, home_team_id: 1, away_team_id: 3),
+      ]
+      game_stats = build_game_stats(team: team, games: games)
 
+      expect(game_stats.number_of_wins_against_team(opponent)).to eq 2
+    end
+  end
   describe "#number_of_wins_by_season" do
     it "returns a hash of seasons with their related win counts" do
       team = instance_double(Team, id: 1)
