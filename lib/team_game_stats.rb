@@ -48,6 +48,9 @@ class TeamGameStats
     average(away_games.sum(&:away_goals), away_games.size)
   end
 
+  def average_win_percentage_by_season(season, type)
+  end
+
   def away_games
     games.select { |game| game.away_team_id == team.id }
   end
@@ -124,6 +127,16 @@ class TeamGameStats
         game.home_team_id
       end
     end.uniq!
+  end
+
+  def season_information(season, type)
+    {
+      win_percentage: average_win_percentage_by_season(season, type),
+      total_goals_scored: 5,
+      total_goals_against: 5,
+      average_goals_scored: 5,
+      average_goals_against: 5,
+    }
   end
 
   private

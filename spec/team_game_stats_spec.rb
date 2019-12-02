@@ -77,6 +77,25 @@ RSpec.describe TeamGameStats do
     end
   end
 
+  describe "#average_win_percentage_by_season" do
+    xit "returns the average score across all away games" do
+      team = instance_double(Team, id: 1)
+      season = "20122013"
+      type = "Regular Season"
+      games = [
+        double("Game", home_team_id: 0, home_goals: 0, away_team_id: 1,
+                       away_goals: 2),
+        double("Game", home_team_id: 0, home_goals: 0, away_team_id: 1,
+                       away_goals: 4),
+        double("Game", home_team_id: 1, home_goals: 5, away_team_id: 0,
+                       away_goals: 0),
+      ]
+      game_stats = build_game_stats(team: team, games: games)
+
+      expect(game_stats.average_win_percentage_by_season(season, type)).to eq 3
+    end
+  end
+
   describe "#away_games" do
     it "returns an array of all games where the team is a visitor" do
       team = instance_double(Team, id: 1)
@@ -275,6 +294,24 @@ RSpec.describe TeamGameStats do
       game_stats = build_game_stats(team: team, games: games)
 
       expect(game_stats.opponents).to eq opponent_array
+    end
+  end
+
+  describe "#season_information" do
+    xit "returns an array of opponents of a team" do
+      team = instance_double(Team, id: 6)
+      season = "20122013"
+      type = "Regular Season"
+      game_stats = build_game_stats(team: team, games: this_team.games)
+      information = {
+        win_percentage: 5,
+        total_goals_scored: 5,
+        total_goals_against: 5,
+        average_goals_scored: 5,
+        average_goals_against: 5,
+      }
+
+      expect(game_stats.season_information(season, type)).to eq information
     end
   end
 

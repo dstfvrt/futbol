@@ -79,6 +79,13 @@ RSpec.describe Game do
         expect(game.losing_team_id).to eq 3
       end
     end
+
+    describe "#season_types" do
+      it "returns the types of seasons as symbols" do
+        game = build_game
+        expect(game.season_types).to eq :post_season
+      end
+    end
   end
 
   def build_game
