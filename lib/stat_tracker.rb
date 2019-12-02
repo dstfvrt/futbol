@@ -42,10 +42,6 @@ class StatTracker
     percentage(wins, num_games)
   end
 
-  def biggest_blowout
-    games.map(&:score_difference).max
-  end
-
   def best_defense
     team = teams.min_by do |t|
       team_game_stats = TeamGameStats.new(team: t, games: t.games)
@@ -79,6 +75,14 @@ class StatTracker
       .first
   end
 
+  def biggest_blowout
+    games.map(&:score_difference).max
+  end
+
+  def biggest_team_blowout(id)
+    get_stats_by_team(id).games.map(&:score_difference).max
+  end
+
   def count_of_games_by_season
     seasons = games.map(&:season).uniq
     seasons.each_with_object({}) do |season, hash|
@@ -109,6 +113,16 @@ class StatTracker
 
   def games
     games_repo.records
+  end
+
+  def head_to_head(id)
+    get_stats_by_team(id).opponents
+      .each_with_object({}) do |opponent, hash|
+        o = get_stats_by_team(opponent)
+        name = o.team.name
+        opponent_id = o.team.id
+        hash[name] = average_win_percentage_against_team(id, opponent_id)
+      end
   end
 
   def highest_scoring_visitor
@@ -217,6 +231,10 @@ class StatTracker
     end
 
     team.name
+  end
+
+  def worst_lost(id)
+    get_stats_by_team(id).games.map(&:score_difference).min
   end
 
   def worst_season(id)

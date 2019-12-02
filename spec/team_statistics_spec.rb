@@ -91,15 +91,35 @@ RSpec.describe StatTracker do
   end
 
   describe "#biggest_team_blowout" do
-    xit "returns biggest difference between team & oppenent goals for a win" do
+    it "returns biggest difference between team & oppenent goals for a win" do
       united_id = 6
 
-      expect(stat_tracker.biggest_team_blowout(united_id)).to eq(1)
+      expect(stat_tracker.biggest_team_blowout(united_id)).to eq(2)
     end
   end
 
   describe "#worst_loss" do
-    xit "returns biggest difference between team & oppenent goals for a loss" do
+    it "returns biggest difference between team & oppenent goals for a loss" do
+      united_id = 6
+
+      expect(stat_tracker.worst_lost(united_id)).to eq(-3)
+    end
+  end
+
+  describe "#head_to_head" do
+    it "returns record against all opponents with win percentage" do
+      united_id = 6
+
+      record_hash = {
+        "Houston Dynamo" => 100.0,
+        "Sporting Kansas City" => 57.143,
+      }
+      expect(stat_tracker.head_to_head(united_id)).to eq record_hash
+    end
+  end
+
+  describe "#seasonal_summary" do
+    xit "returns each season and information for that season" do
     end
   end
 end
