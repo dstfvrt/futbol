@@ -198,6 +198,42 @@ class TeamGameStats
     }
   end
 
+  def season_games(season)
+    games.select do |game|
+      game.season == season
+    end
+  end
+
+  def seasonal_win_percentage_difference(season)
+    regular_season_games =
+      season_games(season).select do |game|
+        game.type == "Regular Season"
+      end
+
+    regular_season_wins =
+      regular_season_games.count do |game|
+        game.winner?(team)
+      end
+
+    regular_season_win_percent =
+      average(regular_season_wins, regular_season_games.size)
+
+    post_season_games =
+      season_games(season).select do |game|
+        game.type == "Postseason"
+      end
+
+    post_season_wins =
+      post_season_games.count do |game|
+        game.winner?(team)
+      end
+
+    post_season_win_percent =
+      average(post_season_wins, post_season_games.size)
+
+    (regular_season_win_percent - post_season_win_percent) * 100
+  end
+
   private
 
   def average(dividend, divisor)

@@ -79,6 +79,20 @@ class StatTracker
     games.map(&:score_difference).max
   end
 
+  def biggest_bust(season)
+    teams.min_by do |team|
+      team_games_stats = TeamGameStats.new(team: team, games: team.games)
+      team_games_stats.seasonal_win_percentage_difference(season)
+    end.name
+  end
+
+  def biggest_surprise(season)
+    teams.max_by do |team|
+      team_games_stats = TeamGameStats.new(team: team, games: team.games)
+      team_games_stats.seasonal_win_percentage_difference(season)
+    end.name
+  end
+
   def biggest_team_blowout(id)
     get_stats_by_team(id).games.map(&:score_difference).max
   end
