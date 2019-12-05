@@ -70,7 +70,7 @@ class StatTracker
   end
 
   def best_season(id)
-    get_stats_by_team(id).number_of_wins_by_season
+    get_stats_by_team(id).number_of_wins_by_season_hash
       .max_by { |_season, count| count }
       .first
   end
