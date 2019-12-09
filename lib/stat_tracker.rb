@@ -231,6 +231,56 @@ class StatTracker
     team.name
   end
 
+  def winningest_coach(season)
+    coach_season_games = game_teams.group_by do |game_team|
+      game_season = games.find { |game| game.id == game_team.game_id}
+                    &.season
+
+      if game_season == season
+        game_team.head_coach
+      else
+        ""
+      end
+    end
+    coach_season_games.delete("")
+
+    coach_season_games.keys.max_by do |coach|
+      coach_season_games[coach].inject(0) do |sum, game_team|
+        if game_team.result == "LOSS"
+          0
+        else
+          sum + 1
+        end
+      end.to_f / coach_season_games[coach].size
+    end
+  end
+
+  def winningest_coach(season)
+    coach_games = coach_season_games(season)
+    coach_games.keys.max_by do |coach|
+      coach_games[coach].inject(0) do |sum, game_team|
+        if game_team.result == "LOSS"
+          0
+        else
+          sum + 1
+        end
+      end.to_f / coach_games[coach].size
+    end
+  end
+
+  def worst_coach(season)
+    coach_games = coach_season_games(season)
+    coach_games.keys.min_by do |coach|
+      coach_games[coach].inject(0) do |sum, game_team|
+        if game_team.result == "LOSS"
+          0
+        else
+          sum + 1
+        end
+      end.to_f / coach_games[coach].size
+    end
+  end
+
   def worst_defense
     team = teams.max_by do |t|
       team_game_stats = TeamGameStats.new(team: t, games: t.games)
@@ -280,6 +330,21 @@ class StatTracker
   def calculate_average_score_for_games(games)
     total_games_score = games.map(&:total_score).inject(:+)
     average(total_games_score, games.count)
+  end
+
+  def coach_season_games(season)
+    coach_games = game_teams.group_by do |game_team|
+      game_season = games.find { |game| game.id == game_team.game_id}
+                    &.season
+
+      if game_season == season
+        game_team.head_coach
+      else
+        ""
+      end
+    end
+    coach_games.delete("")
+    return coach_games
   end
 
   def find_games_from_season(season)

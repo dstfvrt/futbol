@@ -19,7 +19,7 @@ RSpec.describe Game do
   describe "#initialize" do
     it "takes a hash and contains values" do
       game = build_game
-      expect(game.game_id).to eq 2012030221
+      expect(game.id).to eq 2012030221
       expect(game.season).to eq "20122013"
       expect(game.type).to eq "Postseason"
       expect(game.date_time).to eq "5/16/13"
