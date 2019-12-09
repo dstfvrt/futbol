@@ -21,6 +21,10 @@ class Game < Record
     attributes[:game_id].to_i
   end
 
+  def has_team?(team_id)
+    [home_team_id, away_team_id].include?(team_id)
+  end
+
   def home_goals
     attributes[:home_goals].to_i
   end
@@ -49,7 +53,7 @@ class Game < Record
     attributes[:season]
   end
 
-  def season_types
+  def season_type
     if type == "Regular Season"
       :regular_season
     elsif type == "Postseason"

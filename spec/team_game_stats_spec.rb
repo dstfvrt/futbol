@@ -246,7 +246,7 @@ RSpec.describe TeamGameStats do
       team = instance_double(Team, id: 1)
       opponent = 2
       games = [
-        double("Game", home_team_id: 1, away_team_id: 2),
+        double("Game", home_team_id: 1, away_team_id: 2, has_team?: true),
         double("Game", home_team_id: 2, away_team_id: 1),
         double("Game", home_team_id: 3, away_team_id: 1),
         double("Game", home_team_id: 1, away_team_id: 3),
@@ -565,7 +565,7 @@ RSpec.describe TeamGameStats do
     it "returns an array of opponents of a team" do
       team = instance_double(Team, id: 1)
       season = "20122013"
-      type = :regular_season
+      type = :post_season
       games = [
         double("Game", {
           home_team_id: 1,
@@ -587,16 +587,16 @@ RSpec.describe TeamGameStats do
           away_team_id: 1,
           home_goals: 3,
           away_goals: 2,
-          winner?: true,
-          season: "20132014",
-          season_type: :post_season,
+          winner?: false,
+          season: "20122013",
+          season_type: :regular_season,
         }),
         double("Game", {
           home_team_id: 2,
           away_team_id: 1,
           home_goals: 3,
           away_goals: 2,
-          winner?: true,
+          winner?: false,
           season: "20122013",
           season_type: :post_season,
         }),
@@ -604,11 +604,11 @@ RSpec.describe TeamGameStats do
       game_stats = build_game_stats(team: team, games: games)
 
       information = {
-        win_percentage: 5,
-        total_goals_scored: 5,
+        win_percentage: 50.0,
+        total_goals_scored: 3,
         total_goals_against: 5,
-        average_goals_scored: 5,
-        average_goals_against: 5,
+        average_goals_scored: 1.5,
+        average_goals_against: 2.5,
       }
 
       expect(game_stats.season_information(season, type)).to eq information

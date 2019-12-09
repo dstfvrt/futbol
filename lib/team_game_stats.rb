@@ -48,7 +48,7 @@ class TeamGameStats
     number = all_goals_against_by_season(season, type)
     games = games_by_season(season, type)
 
-    average(number, games)
+    average(number, games).round(2)
   end
 
   def average_allowed_goals
@@ -110,7 +110,7 @@ class TeamGameStats
 
   def games_against_team(opponent_id)
     games.count do |game|
-      game.home_team_id == opponent_id || game.away_team_id == opponent_id
+      game.has_team(opponent_id)
     end
   end
 
@@ -136,7 +136,7 @@ class TeamGameStats
 
   def number_of_wins_against_team(opponent_id)
     games.count do |game|
-      if game.home_team_id == opponent_id || game.away_team_id == opponent_id
+      if game.has_team?(opponent_id)
         game.winning_team_id == team.id
       end
     end

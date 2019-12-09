@@ -182,11 +182,10 @@ class StatTracker
   def seasonal_summary(id)
     this_team = get_stats_by_team(id)
     seasons = games.map(&:season).uniq
-    season_types = games.map(&:season_types).uniq
+    season_types = games.map(&:season_type).uniq
     seasons.each_with_object({}) do |season, hash|
-      hash[season] = season_types.each_with_object({}) do |season_type, hash_2|
-        hash_2[season_type] =
-          this_team.season_information(season, season_type)
+      hash[season] = season_types.each_with_object({}) do |type, hash_2|
+        hash_2[type] = this_team.season_information(season, type)
       end
     end
   end

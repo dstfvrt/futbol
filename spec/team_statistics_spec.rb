@@ -119,11 +119,11 @@ RSpec.describe StatTracker do
   end
 
   describe "#seasonal_summary" do
-    xit "returns each season and information for that season" do
+    it "returns each season and information for that season" do
       united_id = 6
 
       seasonal_hash = {
-        "20122013" => {
+        "20122013": {
           regular_season: {
             win_percentage: 5,
             total_goals_scored: 5,
@@ -139,7 +139,7 @@ RSpec.describe StatTracker do
             average_goals_against: 5,
           },
         },
-        "20132014" => {
+        "20132014": {
           regular_season: {
             win_percentage: 5,
             total_goals_scored: 5,
@@ -147,7 +147,7 @@ RSpec.describe StatTracker do
             average_goals_scored: 5,
             average_goals_against: 5,
           },
-          post_season => {
+          post_season: {
             win_percentage: 5,
             total_goals_scored: 5,
             total_goals_against: 5,
