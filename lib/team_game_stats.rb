@@ -83,7 +83,7 @@ class TeamGameStats
     number = all_goals_scored_by_season(season, type)
     games = games_by_season(season, type)
 
-    average(number, games)
+    average(number, games).round(2)
   end
 
   def average_visiting_score
@@ -110,7 +110,7 @@ class TeamGameStats
 
   def games_against_team(opponent_id)
     games.count do |game|
-      game.has_team(opponent_id)
+      game.has_team?(opponent_id)
     end
   end
 

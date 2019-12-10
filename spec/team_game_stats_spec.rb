@@ -247,9 +247,9 @@ RSpec.describe TeamGameStats do
       opponent = 2
       games = [
         double("Game", home_team_id: 1, away_team_id: 2, has_team?: true),
-        double("Game", home_team_id: 2, away_team_id: 1),
-        double("Game", home_team_id: 3, away_team_id: 1),
-        double("Game", home_team_id: 1, away_team_id: 3),
+        double("Game", home_team_id: 2, away_team_id: 1, has_team?: true),
+        double("Game", home_team_id: 3, away_team_id: 1, has_team?: false),
+        double("Game", home_team_id: 1, away_team_id: 3, has_team?: false),
       ]
       game_stats = build_game_stats(team: team, games: games)
 
@@ -346,10 +346,30 @@ RSpec.describe TeamGameStats do
       team = instance_double(Team, id: 1)
       opponent = 2
       games = [
-        double("Game", winning_team_id: 1, home_team_id: 1, away_team_id: 2),
-        double("Game", winning_team_id: 1, home_team_id: 2, away_team_id: 1),
-        double("Game", winning_team_id: 2, home_team_id: 1, away_team_id: 2),
-        double("Game", winning_team_id: 1, home_team_id: 1, away_team_id: 3),
+        double("Game", {
+          winning_team_id: 1,
+          home_team_id: 1,
+          away_team_id: 2,
+          has_team?: true,
+        }),
+        double("Game", {
+          winning_team_id: 1,
+          home_team_id: 2,
+          away_team_id: 1,
+          has_team?: true,
+        }),
+        double("Game", {
+          winning_team_id: 2,
+          home_team_id: 1,
+          away_team_id: 2,
+          has_team?: true,
+        }),
+        double("Game", {
+          winning_team_id: 1,
+          home_team_id: 1,
+          away_team_id: 3,
+          has_team?: false,
+        }),
       ]
       game_stats = build_game_stats(team: team, games: games)
 
