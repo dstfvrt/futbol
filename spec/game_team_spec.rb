@@ -32,6 +32,7 @@ RSpec.describe GameTeam do
       expect(game_team.head_coach).to eq "John Tortorella"
       expect(game_team.goals).to eq 2
       expect(game_team.shots).to eq 8
+      expect(game_team.shots_to_goals_ratio).to eq 4
       expect(game_team.tackles).to eq 44
       expect(game_team.pim).to eq 8
       expect(game_team.power_play_opportunities).to eq 3
@@ -41,6 +42,31 @@ RSpec.describe GameTeam do
       expect(game_team.takeaways).to eq 7
     end
   end
+
+  describe "#shots_to_goals_ratio" do
+    context "if the number goals is zero" do
+      it "returns the number of shots" do
+        raw_attributes[:shots] = 6
+        raw_attributes[:goals] = 0
+        game_team = build_game_team
+
+        expect(game_team.shots_to_goals_ratio).to eq 6
+      end
+    end
+
+    context "if the number of goals is nonzero" do
+      it "returns the number of shots divided by goals" do
+        raw_attributes[:shots] = 6
+        raw_attributes[:goals] = 4
+        game_team = build_game_team
+
+        expect(game_team.shots_to_goals_ratio).to eq 1.5
+
+      end
+    end
+  end
+
+  private
 
   def build_game_team
     GameTeam.new(raw_attributes)

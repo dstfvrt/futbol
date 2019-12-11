@@ -141,9 +141,9 @@ class StatTracker
 
   def highest_scoring_visitor
     team = teams.max_by do |t|
-      team_game_stats = TeamGameStats.new(team: t, games: t.games)
-      team_game_stats.average_visiting_score
-    end
+            team_game_stats = TeamGameStats.new(team: t, games: t.games)
+            team_game_stats.average_visiting_score
+          end
 
     team.name
   end
@@ -152,17 +152,39 @@ class StatTracker
     games.map(&:total_score).max
   end
 
+  def least_accurate_team(season)
+    game_teams_season = find_game_teams_from_season(season)
+
+    team_id = game_teams_season.max_by do |game_team|
+                game_team.shots_to_goals_ratio
+              end
+                .team_id
+
+    find_team_row(team_id).name
+  end
+
   def lowest_scoring_home_team
     team = teams.min_by do |t|
-      team_game_stats = TeamGameStats.new(team: t, games: t.games)
-      team_game_stats.average_home_score
-    end
+             team_game_stats = TeamGameStats.new(team: t, games: t.games)
+             team_game_stats.average_home_score
+           end
 
     team.name
   end
 
   def lowest_total_score
     games.map(&:total_score).min
+  end
+
+  def most_accurate_team(season)
+    game_teams_season = find_game_teams_from_season(season)
+
+    team_id = game_teams_season.min_by do |game_team|
+                game_team.shots_to_goals_ratio
+              end
+                .team_id
+
+    find_team_row(team_id).name
   end
 
   def most_goals_scored(id)
@@ -229,30 +251,6 @@ class StatTracker
     end
 
     team.name
-  end
-
-  def winningest_coach(season)
-    coach_season_games = game_teams.group_by do |game_team|
-      game_season = games.find { |game| game.id == game_team.game_id}
-                    &.season
-
-      if game_season == season
-        game_team.head_coach
-      else
-        ""
-      end
-    end
-    coach_season_games.delete("")
-
-    coach_season_games.keys.max_by do |coach|
-      coach_season_games[coach].inject(0) do |sum, game_team|
-        if game_team.result == "LOSS"
-          0
-        else
-          sum + 1
-        end
-      end.to_f / coach_season_games[coach].size
-    end
   end
 
   def winningest_coach(season)
@@ -350,6 +348,15 @@ class StatTracker
   def find_games_from_season(season)
     games.select do |game|
       game.season == season
+    end
+  end
+
+  def find_game_teams_from_season(season)
+    game_teams.select do |game_team|
+      game_team_season = games.find { |game| game.id == game_team.game_id}
+                         &.season
+
+      game_team_season == season
     end
   end
 
