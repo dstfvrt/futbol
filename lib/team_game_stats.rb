@@ -17,31 +17,31 @@ class TeamGameStats
   end
 
   def all_goals_scored_by_season(season, type)
-    goals = 0
-    games.each do |game|
+    games.reduce(0) do |goals, game|
       if game.season == season && game.season_type == type
-        goals += if game.home_team_id == team.id
-                   game.home_goals
-                 else
-                   game.away_goals
-                 end
+        if game.home_team_id == team.id
+          goals + game.home_goals
+        else
+          goals + game.away_goals
+        end
+      else
+        goals + 0
       end
     end
-    goals
   end
 
   def all_goals_against_by_season(season, type)
-    goals = 0
-    games.each do |game|
+    games.reduce(0) do |goals, game|
       if game.season == season && game.season_type == type
-        goals += if game.home_team_id == team.id
-                   game.away_goals
-                 else
-                   game.home_goals
-                 end
+        if game.home_team_id == team.id
+          goals + game.away_goals
+        else
+          goals + game.home_goals
+        end
+      else
+        goals + 0
       end
     end
-    goals
   end
 
   def average_against_by_season(season, type)
