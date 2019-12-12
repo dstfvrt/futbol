@@ -118,9 +118,9 @@ class StatTracker
   def head_to_head(id)
     get_stats_by_team(id).opponents
       .each_with_object({}) do |opponent, hash|
-        o = get_stats_by_team(opponent)
-        name = o.team.name
-        opponent_id = o.team.id
+        opp = get_stats_by_team(opponent).team
+        name = opp.name
+        opponent_id = opp.id
         hash[name] = average_win_percentage_against_team(id, opponent_id)
       end
   end
@@ -175,8 +175,7 @@ class StatTracker
       .max_by do |opponent_id|
         average_win_percentage_against_team(opponent_id, id)
       end
-    opponent_team = get_stats_by_team(opponent)
-    opponent_team.team.name
+    get_stats_by_team(opponent).team.name
   end
 
   def seasonal_summary(id)
