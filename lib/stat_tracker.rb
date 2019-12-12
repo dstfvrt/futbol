@@ -15,7 +15,7 @@ class StatTracker
   end
 
   def average_goals_per_game
-    all_scores = games.map(&:total_score).inject(:+)
+    all_scores = games.map(&:total_score).reduce(:+)
     average(all_scores, total_games)
   end
 
@@ -121,6 +121,14 @@ class StatTracker
     get_stats_by_team(id).all_goals_scored.min
   end
 
+  def fewest_tackles(season)
+    game_teams_season = find_game_teams_from_season(season)
+
+    team_id = game_teams_season.min_by(&:tackles).team_id
+
+    find_team_row(team_id).name
+  end
+
   def game_teams
     game_teams_repo.records
   end
@@ -141,9 +149,9 @@ class StatTracker
 
   def highest_scoring_visitor
     team = teams.max_by do |t|
-            team_game_stats = TeamGameStats.new(team: t, games: t.games)
-            team_game_stats.average_visiting_score
-          end
+      team_game_stats = TeamGameStats.new(team: t, games: t.games)
+      team_game_stats.average_visiting_score
+    end
 
     team.name
   end
@@ -155,19 +163,16 @@ class StatTracker
   def least_accurate_team(season)
     game_teams_season = find_game_teams_from_season(season)
 
-    team_id = game_teams_season.max_by do |game_team|
-                game_team.shots_to_goals_ratio
-              end
-                .team_id
+    team_id = game_teams_season.max_by(&:shots_to_goals_ratio).team_id
 
     find_team_row(team_id).name
   end
 
   def lowest_scoring_home_team
     team = teams.min_by do |t|
-             team_game_stats = TeamGameStats.new(team: t, games: t.games)
-             team_game_stats.average_home_score
-           end
+      team_game_stats = TeamGameStats.new(team: t, games: t.games)
+      team_game_stats.average_home_score
+    end
 
     team.name
   end
@@ -179,16 +184,21 @@ class StatTracker
   def most_accurate_team(season)
     game_teams_season = find_game_teams_from_season(season)
 
-    team_id = game_teams_season.min_by do |game_team|
-                game_team.shots_to_goals_ratio
-              end
-                .team_id
+    team_id = game_teams_season.min_by(&:shots_to_goals_ratio).team_id
 
     find_team_row(team_id).name
   end
 
   def most_goals_scored(id)
     get_stats_by_team(id).all_goals_scored.max
+  end
+
+  def most_tackles(season)
+    game_teams_season = find_game_teams_from_season(season)
+
+    team_id = game_teams_season.max_by(&:tackles).team_id
+
+    find_team_row(team_id).name
   end
 
   def percentage_home_wins
@@ -256,7 +266,7 @@ class StatTracker
   def winningest_coach(season)
     coach_games = coach_season_games(season)
     coach_games.keys.max_by do |coach|
-      coach_games[coach].inject(0) do |sum, game_team|
+      coach_games[coach].reduce(0) do |sum, game_team|
         if game_team.result == "LOSS"
           0
         else
@@ -269,7 +279,7 @@ class StatTracker
   def worst_coach(season)
     coach_games = coach_season_games(season)
     coach_games.keys.min_by do |coach|
-      coach_games[coach].inject(0) do |sum, game_team|
+      coach_games[coach].reduce(0) do |sum, game_team|
         if game_team.result == "LOSS"
           0
         else
@@ -326,13 +336,13 @@ class StatTracker
   end
 
   def calculate_average_score_for_games(games)
-    total_games_score = games.map(&:total_score).inject(:+)
+    total_games_score = games.map(&:total_score).reduce(:+)
     average(total_games_score, games.count)
   end
 
   def coach_season_games(season)
     coach_games = game_teams.group_by do |game_team|
-      game_season = games.find { |game| game.id == game_team.game_id}
+      game_season = games.detect { |game| game.id == game_team.game_id }
                     &.season
 
       if game_season == season
@@ -342,7 +352,7 @@ class StatTracker
       end
     end
     coach_games.delete("")
-    return coach_games
+    coach_games
   end
 
   def find_games_from_season(season)
@@ -353,7 +363,7 @@ class StatTracker
 
   def find_game_teams_from_season(season)
     game_teams.select do |game_team|
-      game_team_season = games.find { |game| game.id == game_team.game_id}
+      game_team_season = games.detect { |game| game.id == game_team.game_id }
                          &.season
 
       game_team_season == season

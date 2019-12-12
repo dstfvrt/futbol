@@ -61,7 +61,6 @@ RSpec.describe GameTeam do
         game_team = build_game_team
 
         expect(game_team.shots_to_goals_ratio).to eq 1.5
-
       end
     end
   end
