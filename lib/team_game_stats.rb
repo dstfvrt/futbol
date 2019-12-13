@@ -16,6 +16,41 @@ class TeamGameStats
     end
   end
 
+  def all_goals_scored_by_season(season, type)
+    games.reduce(0) do |goals, game|
+      if game.season == season && game.season_type == type
+        if game.home_team_id == team.id
+          goals + game.home_goals
+        else
+          goals + game.away_goals
+        end
+      else
+        goals + 0
+      end
+    end
+  end
+
+  def all_goals_against_by_season(season, type)
+    games.reduce(0) do |goals, game|
+      if game.season == season && game.season_type == type
+        if game.home_team_id == team.id
+          goals + game.away_goals
+        else
+          goals + game.home_goals
+        end
+      else
+        goals + 0
+      end
+    end
+  end
+
+  def average_against_by_season(season, type)
+    number = all_goals_against_by_season(season, type)
+    games = games_by_season(season, type)
+
+    average(number, games).round(2)
+  end
+
   def average_allowed_goals
     number = games.sum do |game|
       if game.home_team_id == team.id
@@ -44,8 +79,21 @@ class TeamGameStats
     average(number, games.count)
   end
 
+  def average_score_by_season(season, type)
+    number = all_goals_scored_by_season(season, type)
+    games = games_by_season(season, type)
+
+    average(number, games).round(2)
+  end
+
   def average_visiting_score
     average(away_games.sum(&:away_goals), away_games.size)
+  end
+
+  def avg_win_percentage_by_season(season, type)
+    wins_by_season = number_of_wins_by_season(season, type)
+    games = games_by_season(season, type)
+    average(wins_by_season, games) * 100
   end
 
   def away_games
@@ -58,6 +106,18 @@ class TeamGameStats
     end
 
     average(number, away_games.size)
+  end
+
+  def games_against_team(opponent_id)
+    games.count do |game|
+      game.has_team?(opponent_id)
+    end
+  end
+
+  def games_by_season(season, type)
+    games.count do |game|
+      game.season == season && game.season_type == type
+    end
   end
 
   def home_games
@@ -74,7 +134,23 @@ class TeamGameStats
     games.count { |game| game.winner?(team) }
   end
 
-  def number_of_wins_by_season
+  def number_of_wins_against_team(opponent_id)
+    games.count do |game|
+      if game.has_team?(opponent_id)
+        game.winning_team_id == team.id
+      end
+    end
+  end
+
+  def number_of_wins_by_season(season, type)
+    games.count do |game|
+      if game.season == season && game.season_type == type
+        game.winner?(team)
+      end
+    end
+  end
+
+  def number_of_wins_by_season_hash
     seasons = games.map(&:season).uniq
 
     seasons.each_with_object({}) do |season, hash|
@@ -110,6 +186,16 @@ class TeamGameStats
         game.home_team_id
       end
     end.uniq!
+  end
+
+  def season_information(season, type)
+    {
+      win_percentage: avg_win_percentage_by_season(season, type),
+      total_goals_scored: all_goals_scored_by_season(season, type),
+      total_goals_against: all_goals_against_by_season(season, type),
+      average_goals_scored: average_score_by_season(season, type),
+      average_goals_against: average_against_by_season(season, type),
+    }
   end
 
   private

@@ -30,11 +30,30 @@ RSpec.describe Game do
       expect(game.venue).to eq "Toyota Stadium"
       expect(game.venue_link).to eq "/api/v1/venues/null"
     end
-
-    describe "#total_score" do
-      it "gets total goals of game" do
+    describe "#away_win" do
+      it "returns if the game was a away win" do
         game = build_game
-        expect(game.total_score).to eq 5
+        expect(game.away_win?).to eq false
+      end
+    end
+
+    describe "#has_team?" do
+      it "returns if the game has a team id" do
+        game = build_game
+        expect(game.has_team?(game.away_team_id)).to eq true
+      end
+    end
+    describe "#home_win?" do
+      it "returns if the game was a home win" do
+        game = build_game
+        expect(game.home_win?).to eq true
+      end
+    end
+
+    describe "#losing_team_id" do
+      it "returns the team id that lost" do
+        game = build_game
+        expect(game.losing_team_id).to eq 3
       end
     end
 
@@ -45,24 +64,24 @@ RSpec.describe Game do
       end
     end
 
-    describe "#home_win?" do
-      it "returns if the game was a home win" do
+    describe "#season_type" do
+      it "returns the types of seasons as symbols" do
         game = build_game
-        expect(game.home_win?).to eq true
+        expect(game.season_type).to eq :post_season
       end
     end
 
-    describe "#score_difference" do
-      it "returns if the game was a away win" do
-        game = build_game
-        expect(game.away_win?).to eq false
-      end
-    end
-
-    describe "#score_difference" do
+    describe "#tie" do
       it "returns if the game was a tie" do
         game = build_game
         expect(game.tie?).to eq false
+      end
+    end
+
+    describe "#total_score" do
+      it "gets total goals of game" do
+        game = build_game
+        expect(game.total_score).to eq 5
       end
     end
 
@@ -72,14 +91,9 @@ RSpec.describe Game do
         expect(game.winning_team_id).to eq 6
       end
     end
-
-    describe "#losing_team_id" do
-      it "returns the team id that lost" do
-        game = build_game
-        expect(game.losing_team_id).to eq 3
-      end
-    end
   end
+
+  private
 
   def build_game
     Game.new(raw_attributes)
