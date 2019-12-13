@@ -108,6 +108,20 @@ class TeamGameStats
     average(number, away_games.size)
   end
 
+  def calculate_seasonal_win_percentage(season, season_type)
+    season_games =
+      season_games(season).select do |game|
+        game.type == season_type
+      end
+
+    season_wins =
+      season_games.count do |game|
+        game.winner?(team)
+      end
+
+    average(season_wins, season_games.size)
+  end
+
   def games_against_team(opponent_id)
     games.count do |game|
       game.has_team?(opponent_id)
@@ -205,31 +219,12 @@ class TeamGameStats
   end
 
   def seasonal_win_percentage_difference(season)
-    regular_season_games =
-      season_games(season).select do |game|
-        game.type == "Regular Season"
-      end
-
-    regular_season_wins =
-      regular_season_games.count do |game|
-        game.winner?(team)
-      end
 
     regular_season_win_percent =
-      average(regular_season_wins, regular_season_games.size)
-
-    post_season_games =
-      season_games(season).select do |game|
-        game.type == "Postseason"
-      end
-
-    post_season_wins =
-      post_season_games.count do |game|
-        game.winner?(team)
-      end
+      calculate_seasonal_win_percentage(season, "Regular Season")
 
     post_season_win_percent =
-      average(post_season_wins, post_season_games.size)
+      calculate_seasonal_win_percentage(season, "Postseason")
 
     (regular_season_win_percent - post_season_win_percent) * 100
   end
