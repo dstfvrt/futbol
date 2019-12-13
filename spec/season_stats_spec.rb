@@ -14,7 +14,7 @@ RSpec.describe StatTracker do
     it "returns the name of the team with the biggest increase between " +
       "regular season and postseason win percentage" do
       expect(stat_tracker.biggest_surprise("20122013")).to eq "Sporting" +
-      "Kansas City"
+        "Kansas City"
     end
   end
 
@@ -55,7 +55,7 @@ RSpec.describe StatTracker do
 
   describe "#fewest_tackles" do
     it "returns the name of the team with the fewest tackles in the season" do
-      expect(stat_tracker.fewest_tackles("20122013")).to eq "FC Dallas Revolution"
+      expect(stat_tracker.fewest_tackles("20122013")).to eq "FC Dallas"
     end
   end
 
