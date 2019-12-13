@@ -1,8 +1,8 @@
 require "csv"
-require "./lib/repository"
 require "./lib/game"
-require "./lib/team"
 require "./lib/game_team"
+require "./lib/repository"
+require "./lib/team"
 require "./lib/team_game_stats"
 
 class StatTracker
