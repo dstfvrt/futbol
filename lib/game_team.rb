@@ -33,6 +33,14 @@ class GameTeam < Record
     attributes[:shots].to_i
   end
 
+  def shots_to_goals_ratio
+    if goals.zero?
+      shots
+    else
+      shots.to_f / goals
+    end
+  end
+
   def tackles
     attributes[:tackles].to_i
   end

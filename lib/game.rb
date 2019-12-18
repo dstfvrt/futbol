@@ -17,7 +17,7 @@ class Game < Record
     attributes[:date_time]
   end
 
-  def game_id
+  def id
     attributes[:game_id].to_i
   end
 

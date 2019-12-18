@@ -553,7 +553,7 @@ RSpec.describe TeamGameStats do
     end
   end
 
-  describe "#oppenents" do
+  describe "#opponents" do
     it "returns an array of opponents of a team" do
       team = instance_double(Team, id: 1)
       opponent_array = [2, 3]
@@ -632,6 +632,93 @@ RSpec.describe TeamGameStats do
       }
 
       expect(game_stats.season_information(season, type)).to eq information
+    end
+  end
+
+  describe "#season_games" do
+    it "returns an array of games with the given season" do
+      team = instance_double(Team, id: 1)
+      games = [
+        double("Game", {
+          season: "1",
+        }),
+        double("Game", {
+          season: "1",
+        }),
+        double("Game", {
+          season: "2",
+        }),
+        double("Game", {
+          season: "3",
+        }),
+      ]
+      game_stats = build_game_stats(team: team, games: games)
+
+      season_games = game_stats.season_games("1")
+
+      expect(season_games).to eq games[0..1]
+      expect(game_stats.season_games("2").size).to eq 1
+      expect(game_stats.season_games("Bad Key").size).to eq 0
+    end
+  end
+
+  describe "#seasonal_win_percentage_difference" do
+    it "returns the difference of win percentages between regular and post " +
+      "season games for a given season" do
+      team = instance_double(Team, id: 1)
+      games = [
+        double("Game", {
+          home_team_id: 1,
+          season: "1",
+          type: "Regular Season",
+          winner?: true,
+        }),
+        double("Game", {
+          home_team_id: 1,
+          season: "1",
+          type: "Regular Season",
+          winner?: false,
+        }),
+        double("Game", {
+          home_team_id: 1,
+          season: "1",
+          type: "Regular Season",
+          winner?: true,
+        }),
+        double("Game", {
+          home_team_id: 1,
+          season: "1",
+          type: "Regular Season",
+          winner?: false,
+        }),
+        double("Game", {
+          home_team_id: 1,
+          season: "1",
+          type: "Postseason",
+          winner?: true,
+        }),
+        double("Game", {
+          home_team_id: 1,
+          season: "1",
+          type: "Postseason",
+          winner?: true,
+        }),
+        double("Game", {
+          home_team_id: 1,
+          season: "1",
+          type: "Postseason",
+          winner?: true,
+        }),
+        double("Game", {
+          home_team_id: 1,
+          season: "1",
+          type: "Postseason",
+          winner?: true,
+        }),
+      ]
+
+      game_stats = build_game_stats(team: team, games: games)
+      expect(game_stats.seasonal_win_percentage_difference("1")).to eq -50
     end
   end
 
