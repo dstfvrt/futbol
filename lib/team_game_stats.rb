@@ -219,7 +219,6 @@ class TeamGameStats
   end
 
   def seasonal_win_percentage_difference(season)
-
     regular_season_win_percent =
       calculate_seasonal_win_percentage(season, "Regular Season")
 

@@ -75,7 +75,7 @@ RSpec.describe StatTracker do
       expect(stat_tracker.rival(united_id)).to eq(opponent)
     end
   end
-  
+
   describe "#seasonal_summary" do
     it "returns each season and information for that season" do
       united_id = 6
