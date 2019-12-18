@@ -1,6 +1,8 @@
 require "./lib/game"
 
 RSpec.describe Game do
+  let(:game) { build_game }
+
   let(:raw_attributes) do
     {
       game_id: "2012030221",
@@ -18,7 +20,6 @@ RSpec.describe Game do
 
   describe "#initialize" do
     it "takes a hash and contains values" do
-      game = build_game
       expect(game.id).to eq 2012030221
       expect(game.season).to eq "20122013"
       expect(game.type).to eq "Postseason"
@@ -30,64 +31,77 @@ RSpec.describe Game do
       expect(game.venue).to eq "Toyota Stadium"
       expect(game.venue_link).to eq "/api/v1/venues/null"
     end
+
     describe "#away_win" do
       it "returns if the game was a away win" do
-        game = build_game
         expect(game.away_win?).to eq false
       end
     end
 
     describe "#has_team?" do
       it "returns if the game has a team id" do
-        game = build_game
         expect(game.has_team?(game.away_team_id)).to eq true
       end
     end
+
     describe "#home_win?" do
       it "returns if the game was a home win" do
-        game = build_game
         expect(game.home_win?).to eq true
       end
     end
 
     describe "#losing_team_id" do
       it "returns the team id that lost" do
-        game = build_game
         expect(game.losing_team_id).to eq 3
       end
     end
 
     describe "#score_difference" do
       it "gets the difference between the home goals and away goals" do
-        game = build_game
         expect(game.score_difference).to eq 1
       end
     end
 
     describe "#season_type" do
       it "returns the types of seasons as symbols" do
-        game = build_game
         expect(game.season_type).to eq :post_season
       end
     end
 
     describe "#tie" do
       it "returns if the game was a tie" do
-        game = build_game
         expect(game.tie?).to eq false
       end
     end
 
     describe "#total_score" do
       it "gets total goals of game" do
-        game = build_game
         expect(game.total_score).to eq 5
+      end
+    end
+
+    describe "#winner?" do
+      context "when the team is a part of the game" do
+        it "returns true if the team won the game, false if the team lost" do
+          losing_team = double("Team", id: 3)
+          winning_team = double("Team", id: 6)
+
+          expect(game.winner?(losing_team)).to eq false
+          expect(game.winner?(winning_team)).to eq true
+        end
+      end
+
+      context "when the team is not a part of the game" do
+        it "returns false" do
+          nonexistent_team = double("Team", id: 0)
+
+          expect(game.winner?(nonexistent_team)).to eq false
+        end
       end
     end
 
     describe "#winning_team_id" do
       it "returns the team id that won" do
-        game = build_game
         expect(game.winning_team_id).to eq 6
       end
     end
