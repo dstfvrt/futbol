@@ -1,4 +1,4 @@
-require "./lib/record"
+require_relative "record"
 
 class Game < Record
   def away_goals

@@ -1,9 +1,9 @@
 require "csv"
-require "./lib/game"
-require "./lib/game_team"
-require "./lib/repository"
-require "./lib/team"
-require "./lib/team_game_stats"
+require_relative "game"
+require_relative "game_team"
+require_relative "repository"
+require_relative "team"
+require_relative "team_game_stats"
 
 class StatTracker
   attr_reader :games_repo, :teams_repo, :game_teams_repo

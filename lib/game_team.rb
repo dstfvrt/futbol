@@ -1,4 +1,4 @@
-require "./lib/record"
+require_relative "record"
 
 class GameTeam < Record
   def game_id
