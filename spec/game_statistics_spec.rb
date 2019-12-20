@@ -66,7 +66,7 @@ RSpec.describe StatTracker do
         .to receive(:games)
         .and_return(games)
 
-      expect(stat_tracker.percentage_home_wins).to eq(66.667)
+      expect(stat_tracker.percentage_home_wins).to eq(0.67)
     end
   end
 
@@ -82,7 +82,7 @@ RSpec.describe StatTracker do
         .to receive(:games)
         .and_return(games)
 
-      expect(stat_tracker.percentage_visitor_wins).to eq(66.667)
+      expect(stat_tracker.percentage_visitor_wins).to eq(0.67)
     end
   end
 
@@ -98,7 +98,7 @@ RSpec.describe StatTracker do
         .to receive(:games)
         .and_return(games)
 
-      expect(stat_tracker.percentage_ties).to eq(66.667)
+      expect(stat_tracker.percentage_ties).to eq(0.67)
     end
   end
 
@@ -141,7 +141,7 @@ RSpec.describe StatTracker do
         .to receive(:games)
         .and_return(games)
 
-      expect(stat_tracker.average_goals_per_game).to eq(3.167)
+      expect(stat_tracker.average_goals_per_game).to eq(3.17)
     end
   end
 
@@ -161,9 +161,9 @@ RSpec.describe StatTracker do
         .and_return(games)
 
       seasons_hash = {
-        20122013 => 2.667,
+        20122013 => 2.67,
         20132014 => 2.5,
-        20142015 => 3,
+        20142015 => 3.0,
       }
       expect(stat_tracker.average_goals_by_season).to eq(seasons_hash)
     end

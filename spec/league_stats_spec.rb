@@ -33,6 +33,12 @@ RSpec.describe StatTracker do
     end
   end
 
+  describe "#highest_scoring_home_team" do
+    it "returns the name of the team with the highest average home score" do
+      expect(stat_tracker.highest_scoring_home_team).to eq "New York City FC"
+    end
+  end
+
   describe "#highest_scoring_visitor" do
     it "returns the name of the team with the highest average visiting score" do
       expect(stat_tracker.highest_scoring_visitor).to eq "FC Dallas"
@@ -42,6 +48,12 @@ RSpec.describe StatTracker do
   describe "#lowest_scoring_home_team" do
     it "returns the name of the team with the lowest average home score" do
       expect(stat_tracker.lowest_scoring_home_team).to eq "Atlanta United"
+    end
+  end
+
+  describe "#lowest_scoring_visitor" do
+    it "returns the name of the team with the lowest average visitor score" do
+      expect(stat_tracker.lowest_scoring_visitor).to eq "Atlanta United"
     end
   end
 

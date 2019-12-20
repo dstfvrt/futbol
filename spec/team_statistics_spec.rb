@@ -6,14 +6,14 @@ RSpec.describe StatTracker do
   describe "#average_win_percentage" do
     it "returns average win percentage of all games for a team" do
       united_id = 6
-      expect(stat_tracker.average_win_percentage(united_id)).to eq(75.00)
+      expect(stat_tracker.average_win_percentage(united_id)).to eq(0.75)
     end
   end
 
   describe "#average_win_percentage_against_team" do
     it "returns average win percentage of all games for a team" do
       expect(stat_tracker.average_win_percentage_against_team(16, 17))
-        .to eq(42.857)
+        .to eq(0.43)
     end
   end
 
@@ -53,8 +53,8 @@ RSpec.describe StatTracker do
       united_id = 6
 
       record_hash = {
-        "Houston Dynamo" => 100.0,
-        "Sporting Kansas City" => 57.143,
+        "Houston Dynamo" => 1.0,
+        "Sporting Kansas City" => 0.57,
       }
       expect(stat_tracker.head_to_head(united_id)).to eq record_hash
     end

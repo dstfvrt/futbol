@@ -7,6 +7,10 @@ require_relative "team_game_stats"
 class StatTracker
   attr_reader :games_repo, :teams_repo, :game_teams_repo
 
+  def self.from_csv(locations)
+    new(locations)
+  end
+
   def initialize(filepaths)
     @games_repo = build_repo(filepaths[:games], Game, self)
     @teams_repo = build_repo(filepaths[:teams], Team, self)
@@ -146,6 +150,15 @@ class StatTracker
       end
   end
 
+  def highest_scoring_home_team
+    team = teams.max_by do |t|
+      team_game_stats = TeamGameStats.new(team: t, games: t.games)
+      team_game_stats.average_home_score
+    end
+
+    team.name
+  end
+
   def highest_scoring_visitor
     team = teams.max_by do |t|
       team_game_stats = TeamGameStats.new(team: t, games: t.games)
@@ -171,6 +184,15 @@ class StatTracker
     team = teams.min_by do |t|
       team_game_stats = TeamGameStats.new(team: t, games: t.games)
       team_game_stats.average_home_score
+    end
+
+    team.name
+  end
+
+  def lowest_scoring_visitor
+    team = teams.min_by do |t|
+      team_game_stats = TeamGameStats.new(team: t, games: t.games)
+      team_game_stats.average_visiting_score
     end
 
     team.name
@@ -327,7 +349,7 @@ class StatTracker
   private
 
   def average(dividend, divisor)
-    (dividend / divisor.to_f).round(3)
+    (dividend / divisor.to_f).round(2)
   end
 
   def build_repo(filepath, class_name, database)
@@ -383,6 +405,6 @@ class StatTracker
   def percentage(dividend, divisor)
     return 0 if divisor.zero?
 
-    ((dividend / divisor.to_f) * 100).round(3)
+    (dividend / divisor.to_f).round(2)
   end
 end
